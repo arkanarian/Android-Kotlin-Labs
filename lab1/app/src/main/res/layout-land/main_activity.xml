@@ -4,21 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     tools:ignore="HardcodedText">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerFields"
         android:name="com.example.lab1.FieldsFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerKeyboard"
         android:name="com.example.lab1.KeyboardFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1" />
 
 </LinearLayout>
