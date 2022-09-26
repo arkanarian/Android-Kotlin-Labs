@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="buttonsRow">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+    </style>
+
+    <style name="btnDigit">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">94dp</item>
+        <item name="android:layout_marginStart">7dp</item>
+        <item name="android:backgroundTint">@color/btn_color</item>
+        <item name="android:onClick">NumberAction</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="btnUnits">
+        <item name="android:layout_width">64dp</item>
+        <item name="android:layout_height">39dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:background">@drawable/btn_toggle_units</item>
+        <item name="android:checked">true</item>
+        <item name="android:textColor">@drawable/text_units</item>
+    </style>
+
+</resources>
