@@ -20,10 +20,6 @@ import kotlinx.android.synthetic.main.fragment_fields.view.*
 import kotlinx.android.synthetic.main.fragment_keyboard.*
 import kotlinx.android.synthetic.main.main_activity.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
@@ -33,6 +29,13 @@ private const val ARG_PARAM2 = "param2"
 class FieldsFragment : Fragment() {
     private lateinit var communicator: Communicator
 
+    var choosedUnit1: Int = 1
+    var choosedUnit2: Int = 1
+    var choosedGeneralUnit: Int = 1
+    var inputString: String = "0"
+    var outputString: String = "0"
+    var isSwiped: Boolean = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,24 +44,34 @@ class FieldsFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_fields, container, false)
 
         communicator = activity as Communicator
+//        restoreInput(savedInstanceState, view)
+        Log.i("onCreateView-------->",inputString)
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Log.i("onViewCreated-------->",inputString)
         super.onViewCreated(view, savedInstanceState)
-        Log.d("Tag", "Hello 1")
         tvInput.movementMethod = ScrollingMovementMethod()
-        Log.d("Tag", "Hello 1")
         tvInput.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 if(tvInput.text.length > 10)
                     tvInput.setTextSize(TypedValue.COMPLEX_UNIT_SP,24f)
                 else
                     tvInput.setTextSize(TypedValue.COMPLEX_UNIT_SP,48f)
-                if(tvInput.text.length > 0)
-                    tvOutput.text = calculateResult()
-                else
-                    tvOutput.text = ""
+                Log.i("tvInputTextChanged------------>", isSwiped.toString())
+                if(isSwiped == false){
+                    if(tvInput.text.length > 0) {
+                        Log.i("tvInputTextChanged------------>", "Calculated")
+                        tvOutput.text = calculateResult()
+                    }
+                    else {
+                        tvOutput.text = ""
+                    }
+                }
+                else {
+                    Log.i("tvInputTextChanged------------>", "notCalculated")
+                }
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -91,27 +104,31 @@ class FieldsFragment : Fragment() {
                 btnWeight.setChecked(false)
                 btnInput1.setChecked(true)
                 btnOutput1.setChecked(true)
+                btnInput1.text = "EUR"
+//                btnInput1.textOn = "EUR"
+//                btnInput1.textOff = "EUR"
+                btnOutput1.text = "EUR"
+//                btnOutput1.textOn = "EUR"
+//                btnOutput1.textOff = "EUR"
+                btnInput2.text = "USD"
+//                btnInput2.textOn = "USD"
+//                btnInput2.textOff = "USD"
+                btnOutput2.text = "USD"
+//                btnOutput2.textOn = "USD"
+//                btnOutput2.textOff = "USD"
+                btnInput3.text = "BYN"
+//                btnInput3.textOn = "BYN"
+//                btnInput3.textOff = "BYN"
+                btnOutput3.text = "BYN"
+//                btnOutput3.textOn = "BYN"
+//                btnOutput3.textOff = "BYN"
+            } else {
+            }
+        }
+        btnCurrency.setOnClickListener {
+            if (btnCurrency.isChecked){
                 tvInput.text = "0"
                 tvOutput.text = "0"
-                btnInput1.text = "EUR"
-                btnInput1.textOn = "EUR"
-                btnInput1.textOff = "EUR"
-                btnOutput1.text = "EUR"
-                btnOutput1.textOn = "EUR"
-                btnOutput1.textOff = "EUR"
-                btnInput2.text = "USD"
-                btnInput2.textOn = "USD"
-                btnInput2.textOff = "USD"
-                btnOutput2.text = "USD"
-                btnOutput2.textOn = "USD"
-                btnOutput2.textOff = "USD"
-                btnInput3.text = "BYN"
-                btnInput3.textOn = "BYN"
-                btnInput3.textOff = "BYN"
-                btnOutput3.text = "BYN"
-                btnOutput3.textOn = "BYN"
-                btnOutput3.textOff = "BYN"
-            } else {
             }
         }
         btnDistance.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -120,27 +137,31 @@ class FieldsFragment : Fragment() {
                 btnWeight.setChecked(false)
                 btnInput1.setChecked(true)
                 btnOutput1.setChecked(true)
+                btnInput1.text = "KM"
+//                btnInput1.textOn = "KM"
+//                btnInput1.textOff = "KM"
+                btnOutput1.text = "KM"
+//                btnOutput1.textOn = "KM"
+//                btnOutput1.textOff = "KM"
+                btnInput2.text = "M"
+//                btnInput2.textOn = "M"
+//                btnInput2.textOff = "M"
+                btnOutput2.text = "M"
+//                btnOutput2.textOn = "M"
+//                btnOutput2.textOff = "M"
+                btnInput3.text = "CM"
+//                btnInput3.textOn = "CM"
+//                btnInput3.textOff = "CM"
+                btnOutput3.text = "CM"
+//                btnOutput3.textOn = "CM"
+//                btnOutput3.textOff = "CM"
+            } else {
+            }
+        }
+        btnDistance.setOnClickListener {
+            if (btnDistance.isChecked){
                 tvInput.text = "0"
                 tvOutput.text = "0"
-                btnInput1.text = "KM"
-                btnInput1.textOn = "KM"
-                btnInput1.textOff = "KM"
-                btnOutput1.text = "KM"
-                btnOutput1.textOn = "KM"
-                btnOutput1.textOff = "KM"
-                btnInput2.text = "M"
-                btnInput2.textOn = "M"
-                btnInput2.textOff = "M"
-                btnOutput2.text = "M"
-                btnOutput2.textOn = "M"
-                btnOutput2.textOff = "M"
-                btnInput3.text = "CM"
-                btnInput3.textOn = "CM"
-                btnInput3.textOff = "CM"
-                btnOutput3.text = "CM"
-                btnOutput3.textOn = "CM"
-                btnOutput3.textOff = "CM"
-            } else {
             }
         }
         btnWeight.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -149,27 +170,31 @@ class FieldsFragment : Fragment() {
                 btnDistance.setChecked(false)
                 btnInput1.setChecked(true)
                 btnOutput1.setChecked(true)
+                btnInput1.text = "MG"
+//                btnInput1.textOn = "MG"
+//                btnInput1.textOff = "MG"
+                btnOutput1.text = "MG"
+//                btnOutput1.textOn = "MG"
+//                btnOutput1.textOff = "MG"
+                btnInput2.text = "G"
+//                btnInput2.textOn = "G"
+//                btnInput2.textOff = "G"
+                btnOutput2.text = "G"
+//                btnOutput2.textOn = "G"
+//                btnOutput2.textOff = "G"
+                btnInput3.text = "KG"
+//                btnInput3.textOn = "KG"
+//                btnInput3.textOff = "KG"
+                btnOutput3.text = "KG"
+//                btnOutput3.textOn = "KG"
+//                btnOutput3.textOff = "KG"
+            } else {
+            }
+        }
+        btnWeight.setOnClickListener {
+            if (btnWeight.isChecked){
                 tvInput.text = "0"
                 tvOutput.text = "0"
-                btnInput1.text = "MG"
-                btnInput1.textOn = "MG"
-                btnInput1.textOff = "MG"
-                btnOutput1.text = "MG"
-                btnOutput1.textOn = "MG"
-                btnOutput1.textOff = "MG"
-                btnInput2.text = "G"
-                btnInput2.textOn = "G"
-                btnInput2.textOff = "G"
-                btnOutput2.text = "G"
-                btnOutput2.textOn = "G"
-                btnOutput2.textOff = "G"
-                btnInput3.text = "KG"
-                btnInput3.textOn = "KG"
-                btnInput3.textOff = "KG"
-                btnOutput3.text = "KG"
-                btnOutput3.textOn = "KG"
-                btnOutput3.textOff = "KG"
-            } else {
             }
         }
         // Toggle Buttons Units Input
@@ -177,7 +202,9 @@ class FieldsFragment : Fragment() {
             if(isChecked){
                 btnInput2.setChecked(false)
                 btnInput3.setChecked(false)
-                equalsAction()
+                if(isSwiped == false){
+                    equalsAction()
+                }
             } else {
             }
         }
@@ -185,7 +212,9 @@ class FieldsFragment : Fragment() {
             if(isChecked){
                 btnInput1.setChecked(false)
                 btnInput3.setChecked(false)
-                equalsAction()
+                if(isSwiped == false){
+                    equalsAction()
+                }
             } else {
             }
         }
@@ -193,7 +222,9 @@ class FieldsFragment : Fragment() {
             if(isChecked){
                 btnInput1.setChecked(false)
                 btnInput2.setChecked(false)
-                equalsAction()
+                if(isSwiped == false){
+                    equalsAction()
+                }
             } else {
             }
         }
@@ -202,7 +233,9 @@ class FieldsFragment : Fragment() {
             if(isChecked){
                 btnOutput2.setChecked(false)
                 btnOutput3.setChecked(false)
-                equalsAction()
+                if(isSwiped == false){
+                    equalsAction()
+                }
             } else {
             }
         }
@@ -210,7 +243,9 @@ class FieldsFragment : Fragment() {
             if(isChecked){
                 btnOutput1.setChecked(false)
                 btnOutput3.setChecked(false)
-                equalsAction()
+                if(isSwiped == false){
+                    equalsAction()
+                }
             } else {
             }
         }
@@ -218,7 +253,9 @@ class FieldsFragment : Fragment() {
             if(isChecked){
                 btnOutput1.setChecked(false)
                 btnOutput2.setChecked(false)
-                equalsAction()
+                if(isSwiped == false){
+                    equalsAction()
+                }
             } else {
             }
         }
@@ -318,9 +355,13 @@ class FieldsFragment : Fragment() {
     }
     fun swipeAction(){
         var btnOutput : Int = 0
-        var numInput = tvOutput.text
-        var numOutput = tvInput.text
+        var numInput = tvOutput.text.toString()
+        Log.i("numInput", numInput)
+        var numOutput = tvInput.text.toString()
+        Log.i("numOutput", numOutput)
+        isSwiped = true
         tvOutput.text = numOutput
+        isSwiped = true
         tvInput.text = numInput
         if(btnInput1.isChecked) btnOutput = 1
         else if(btnInput2.isChecked) btnOutput = 2
@@ -331,6 +372,7 @@ class FieldsFragment : Fragment() {
         if(btnOutput == 1) btnOutput1.setChecked(true)
         else if(btnOutput == 2) btnOutput2.setChecked(true)
         else if(btnOutput == 3) btnOutput3.setChecked(true)
+        isSwiped = false
     }
     fun copyAction(view: View){
         communicator.copyAction(view)
@@ -338,9 +380,59 @@ class FieldsFragment : Fragment() {
     fun getInputField(): String{
         return tvInput.text.toString()
     }
+    fun getSelectedUnit(): Int{
+        if(btnCurrency.isChecked) return 1
+        else if(btnDistance.isChecked) return 2
+        else if(btnWeight.isChecked) return 3
+        return 0
+    }
+    fun getSelectedUnitInput(): Int{
+        if(btnInput1.isChecked) return 1
+        else if(btnInput2.isChecked) return 2
+        else if(btnInput3.isChecked) return 3
+        return 0
+    }
+    fun getSelectedUnitOutput(): Int{
+        if(btnOutput1.isChecked) return 1
+        else if(btnOutput2.isChecked) return 2
+        else if(btnOutput3.isChecked) return 3
+        return 0
+    }
+    fun setSelectedUnit(selected: Int) {
+        if(selected == 1) btnCurrency.isChecked = true
+        else if(selected == 2) btnDistance.isChecked = true
+        else if(selected == 3) btnWeight.isChecked = true
+    }
+    fun setSelectedUnitInput(selected: Int) {
+        if(selected == 1) btnInput1.isChecked = true
+        else if(selected == 2) btnInput2.isChecked = true
+        else if(selected == 3) btnInput3.isChecked = true
+    }
+    fun setSelectedUnitOutput(selected: Int) {
+        if(selected == 1) btnOutput1.isChecked = true
+        else if(selected == 2) btnOutput2.isChecked = true
+        else if(selected == 3) btnOutput3.isChecked = true
+    }
+    fun setInputField(str: String){
+        tvInput.text = str
+    }
     fun getOutputField(): String{
         return tvOutput.text.toString()
     }
+
+
+
+//    override fun onSaveInstanceState(outState: Bundle) {
+//        super.onSaveInstanceState(outState)
+//        outState.putString("inputString", tvInput.text.toString())
+//        Log.i("onSaveInstanceState------->", tvInput.text.toString())
+//    }
+//
+//    fun restoreInput(savedInstanceState: Bundle?, view: View) {
+//        inputString = savedInstanceState?.getString("inputString") ?: ""
+//        view.tvInput.text = inputString
+//        Log.i("restoreInput------->", inputString)
+//    }
 
 
 }

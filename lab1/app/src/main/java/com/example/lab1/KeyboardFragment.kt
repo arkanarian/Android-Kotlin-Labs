@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import kotlinx.android.synthetic.main.fragment_fields.*
 import kotlinx.android.synthetic.main.fragment_keyboard.*
 import kotlinx.android.synthetic.main.fragment_keyboard.view.*
 
@@ -92,7 +93,6 @@ class KeyboardFragment : Fragment() {
         }
     }
     fun allClearAction(view: View){
-        communicator.clearAllFields()
         communicator.clearAllFields()
     }
     fun backspaceAction(view: View){

@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ToggleButton
+        <RadioButton
+            style="@style/buttonsUnit"
             android:id="@+id/btnCurrency"
             android:layout_width="120dp"
             android:layout_height="40dp"
@@ -19,29 +20,32 @@
             android:background="@drawable/my_btn_toggle"
             android:checked="true"
             android:textColor="@color/white"
-            android:textOff="Currency"
-            android:textOn="Currency"
+            android:text="Currency"
+            android:gravity="center"
+            android:button="@android:color/transparent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
 
-        <ToggleButton
+        <RadioButton
+            style="@style/buttonsUnit"
             android:id="@+id/btnDistance"
             android:layout_width="120dp"
             android:layout_height="40dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/my_btn_toggle"
+            android:button="@android:color/transparent"
             android:checked="false"
-            android:textColor="@color/white"
+            android:gravity="center"
             android:text="Distance"
-            android:textOff="Distance"
-            android:textOn="Distance"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toStartOf="@+id/btnWeight"
             app:layout_constraintStart_toEndOf="@+id/btnCurrency"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-        <ToggleButton
+        <RadioButton
+            style="@style/buttonsUnit"
             android:id="@+id/btnWeight"
             android:layout_width="120dp"
             android:layout_height="40dp"
@@ -50,8 +54,9 @@
             android:background="@drawable/my_btn_toggle"
             android:checked="false"
             android:textColor="@color/white"
-            android:textOff="Weight"
-            android:textOn="Weight"
+            android:text="Weight"
+            android:gravity="center"
+            android:button="@android:color/transparent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
@@ -62,40 +67,43 @@
             android:layout_marginTop="16dp"
             android:layout_marginStart="115dp"
             android:scrollbars = "vertical"
-            android:text="1023"
+            android:text="0"
             android:textAlignment="textEnd"
             android:textColor="@color/digits_black"
             android:textSize="48sp"
             app:layout_constraintStart_toEndOf="@+id/btnInput1"
             app:layout_constraintTop_toBottomOf="@+id/btnCurrency" />
 
-        <ToggleButton
-            style="@style/btnUnits"
+        <RadioButton
             android:id="@+id/btnInput1"
+            style="@style/btnUnits"
             android:layout_marginTop="24dp"
+            android:button="@android:color/transparent"
             android:checked="true"
-            android:textOff="EUR"
-            android:textOn="EUR"
+            android:gravity="center"
+            android:text="EUR"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnCurrency" />
 
-        <ToggleButton
+        <RadioButton
             android:id="@+id/btnInput2"
             style="@style/btnUnits"
             android:checked="false"
-            android:textOff="USD"
-            android:textOn="USD"
+            android:text="USD"
+            android:gravity="center"
+            android:button="@android:color/transparent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnInput1"
             app:layout_editor_absoluteX="16dp"
             app:layout_editor_absoluteY="119dp" />
 
-        <ToggleButton
+        <RadioButton
             style="@style/btnUnits"
             android:id="@+id/btnInput3"
             android:checked="false"
-            android:textOff="BYN"
-            android:textOn="BYN"
+            android:text="BYN"
+            android:gravity="center"
+            android:button="@android:color/transparent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnInput2" />
 
@@ -109,7 +117,6 @@
             android:backgroundTint="@color/light_brown"
             android:onClick="copyAction"
             android:rotation="90"
-
             android:text="copy"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnCurrency"
@@ -136,37 +143,40 @@
             android:layout_marginStart="115dp"
             android:layout_marginTop="16dp"
             android:scrollbars = "vertical"
-            android:text="1023"
+            android:text="0"
             android:textAlignment="viewEnd"
             android:textColor="@color/digits_black"
             android:textSize="48sp"
             app:layout_constraintStart_toEndOf="@+id/btnOutput1"
             app:layout_constraintTop_toBottomOf="@+id/view" />
 
-        <ToggleButton
+        <RadioButton
             style="@style/btnUnits"
             android:id="@+id/btnOutput1"
             android:layout_marginTop="24dp"
-            android:textOff="EUR"
-            android:textOn="EUR"
+            android:text="EUR"
+            android:gravity="center"
+            android:button="@android:color/transparent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view" />
 
 
-        <ToggleButton
+        <RadioButton
             style="@style/btnUnits"
             android:id="@+id/btnOutput2"
             android:checked="false"
-            android:textOff="USD"
-            android:textOn="USD"
+            android:text="USD"
+            android:gravity="center"
+            android:button="@android:color/transparent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnOutput1" />
-        <ToggleButton
+        <RadioButton
             style="@style/btnUnits"
             android:id="@+id/btnOutput3"
             android:checked="false"
-            android:textOff="BYN"
-            android:textOn="BYN"
+            android:text="BYN"
+            android:gravity="center"
+            android:button="@android:color/transparent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnOutput2" />
 
