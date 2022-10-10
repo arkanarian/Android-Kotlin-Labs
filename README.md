@@ -1,3 +1,3 @@
-## Android Labs
-# Technologies: Kotlin
+# Android Labs
+## Technologies: Kotlin, Java
 
