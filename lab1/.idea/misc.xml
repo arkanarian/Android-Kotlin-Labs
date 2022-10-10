@@ -13,6 +13,7 @@
         <entry key="app/src/main/res/drawable/my_button_bg_units_active.xml" value="0.44" />
         <entry key="app/src/main/res/drawable/text_units.xml" value="0.44" />
         <entry key="app/src/main/res/drawable/toggle_units_bg.xml" value="0.3785" />
+        <entry key="app/src/main/res/layout-land/main_activity.xml" value="0.41225021720243266" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.26510416666666664" />
         <entry key="app/src/main/res/layout/converter_activity.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_distance_page.xml" value="0.623641304347826" />

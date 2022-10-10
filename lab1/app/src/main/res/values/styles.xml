@@ -6,6 +6,11 @@
         <item name="android:layout_height">0dp</item>
     </style>
 
+    <style name="buttonsUnit">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
     <style name="btnDigit">
         <item name="android:layout_weight">1</item>
         <item name="android:layout_width">0dp</item>
@@ -21,6 +26,7 @@
         <item name="android:layout_height">39dp</item>
         <item name="android:layout_marginStart">16dp</item>
         <item name="android:background">@drawable/btn_toggle_units</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:checked">true</item>
         <item name="android:textColor">@drawable/text_units</item>
     </style>

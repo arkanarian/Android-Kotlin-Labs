@@ -1,7 +1,7 @@
 package com.example.lab1
 
 data class Weight (
-    val milligrams: Float = 1f,
-    val grams: Float = 1000f,
-    val kilograms: Float = 1000000f,
+    val milligrams: Double = 1.0,
+    val grams: Double = 1000.0,
+    val kilograms: Double = 1000000.0,
 )
