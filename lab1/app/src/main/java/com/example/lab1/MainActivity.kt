@@ -1,21 +1,15 @@
 package com.example.lab1
 
 import android.content.ClipData
+import android.content.ClipDescription.MIMETYPE_TEXT_PLAIN
 import android.content.ClipboardManager
 import android.content.Context
-import android.content.res.Configuration
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.text.method.ScrollingMovementMethod
+import android.text.TextUtils
 import android.util.Log
-import android.util.TypedValue
 import android.view.View
-import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_fields.*
 import kotlinx.android.synthetic.main.main_activity.*
@@ -29,44 +23,35 @@ class MainActivity : AppCompatActivity(), Communicator {
     var choosedUnitOutput: Int = 1
     var choosedGeneralUnit: Int = 1
     var inputString: String = "0"
-    var outputString: String = "0"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
-
-        Log.i("onCreate--------->", "Activity")
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainerKeyboard, fragmentKeyboard)
             .replace(R.id.fragmentContainerFields, fragmentFields)
             .commit()
     }
 
-//    override fun sendDigit(digit: Int) {
-//        // Get FieldsFragment
-//        val fieldsFragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainerFields) as FieldsFragment
-//        //calling the updateText method of the FragmentB
-//        fieldsFragment.getDigit(digit)
-//    }
-
-//    override fun passDataCom(editTextInput: String) {
-//        val bundle = Bundle()
-//        bundle.putString("message", editTextInput)
-//
-//        val transaction = this.supportFragmentManager.beginTransaction()
-//        val fragmentFields = FieldsFragment()
-//
-//        fragmentFields.arguments = bundle
-//        transaction.replace(R.id.fragmentContainerFields, fragmentFields)
-//        transaction.commit()
-//    }
-
     override fun passDataCom(digit: String) {
+        Log.d("passData------>", "hello")
         val callingFragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainerFields) as FieldsFragment
+        if(digit == "." && callingFragment.getInputLength()==0){
+            showToast("You can't add dot without specifying number")
+            return
+        }
         callingFragment.getDigit(digit)
     }
 
     override fun isContainsDot(): Boolean {
         val callingFragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainerFields) as FieldsFragment
+        return callingFragment.isContainsDotFragment()
+    }
+
+    override fun isContainsDotAdd(): Boolean {
+        val callingFragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainerFields) as FieldsFragment
+        if(callingFragment.isContainsDotFragment()){
+            showToast("Field contains a dot")
+        }
         return callingFragment.isContainsDotFragment()
     }
 
@@ -106,9 +91,42 @@ class MainActivity : AppCompatActivity(), Communicator {
         clipboardManager.setPrimaryClip(clipData)
         showToast("Copyed!")
     }
+    override fun pasteAction(view: View){
+        val callingFragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainerFields) as FieldsFragment
+        val s = resources.getResourceEntryName(view.getId())
+        var textToPaste = ""
+//        if(s == "btnCopyOuput") textToCopy = callingFragment.getOutputField()
+//        else if(s == "btnCopyInput") textToCopy = callingFragment.getInputField()
+        val clipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+        if (clipboardManager.hasPrimaryClip()) {
+            val clip: ClipData? = clipboardManager.getPrimaryClip()
+            if (clip?.description?.hasMimeType(MIMETYPE_TEXT_PLAIN) == true) {
+                textToPaste = clip?.getItemAt(0)?.coerceToText(this).toString()
+            }
+        }
+        Log.i("PastedText----->", textToPaste)
+
+        if(textToPaste.contains(".") && callingFragment.isContainsDotFragment()) {
+            showToast("Unable to paste because of dot")
+            return
+        }
+        try {
+            textToPaste.toDouble()
+        } catch (e: NumberFormatException) {
+            showToast("Unable to paste because it is not a number")
+            return
+        }
+        if (!TextUtils.isEmpty(textToPaste)) callingFragment.pasteAction(textToPaste)
+
+//        val clipData = ClipData.newPlainText("text", textToCopy)
+//        clipboardManager.setPrimaryClip(clipData)
+        showToast("Pasted!")
+    }
+
     private fun showToast(message:String){
         Toast.makeText(this,message,Toast.LENGTH_SHORT).show()
     }
+
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -139,21 +157,5 @@ class MainActivity : AppCompatActivity(), Communicator {
         callingFragment.setSelectedUnitInput(choosedUnitInput)
         callingFragment.setSelectedUnitOutput(choosedUnitOutput)
     }
-
-//    override fun onConfigurationChanged(newConfig: Configuration) {
-//        super.onConfigurationChanged(newConfig)
-//        setContentView(R.layout.main_activity)
-//
-//        if(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE){
-//            val fragmentKeyboard = KeyboardFragment()
-//            val fragmentFields = FieldsFragment()
-//
-//            supportFragmentManager.beginTransaction()
-//                .replace(R.id.fragmentContainerKeyboard, fragmentKeyboard)
-//                .replace(R.id.fragmentContainerFields, fragmentFields)
-//                .commit()
-//
-//        }
-//    }
 }
 

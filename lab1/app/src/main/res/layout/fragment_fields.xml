@@ -60,13 +60,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
-        <TextView
+        <EditText
             android:id="@+id/tvInput"
             android:layout_width="match_parent"
             android:layout_height="130dp"
             android:layout_marginTop="16dp"
+            android:background="@null"
             android:layout_marginStart="115dp"
             android:scrollbars = "vertical"
+            android:longClickable="false"
+            android:textIsSelectable="false"
+            android:textSelectHandle="@drawable/ic_empty"
+            android:textSelectHandleLeft="@drawable/ic_empty"
+            android:textSelectHandleRight="@drawable/ic_empty"
             android:text="0"
             android:textAlignment="textEnd"
             android:textColor="@color/digits_black"
@@ -113,11 +119,25 @@
             android:layout_width="74dp"
             android:layout_height="39dp"
             android:layout_marginStart="60dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="16dp"
             android:backgroundTint="@color/light_brown"
             android:onClick="copyAction"
             android:rotation="90"
             android:text="copy"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnCurrency"
+            app:layout_editor_absoluteY="116dp" />
+
+        <Button
+            android:id="@+id/btnPasteInput"
+            android:layout_width="84dp"
+            android:layout_height="39dp"
+            android:layout_marginStart="52dp"
+            android:layout_marginTop="92dp"
+            android:backgroundTint="@color/light_brown"
+            android:onClick="pasteAction"
+            android:rotation="90"
+            android:text="paste"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnCurrency"
             app:layout_editor_absoluteY="116dp" />
@@ -185,12 +205,14 @@
             android:layout_width="74dp"
             android:layout_height="39dp"
             android:layout_marginStart="60dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="20dp"
             android:backgroundTint="@color/light_brown"
+            android:onClick="copyAction"
             android:rotation="90"
             android:text="copy"
-            android:onClick="copyAction"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

@@ -1,20 +1,16 @@
 package com.example.lab1
 
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputType
 import android.text.TextWatcher
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.util.TypedValue
+import android.view.*
+import android.widget.EditText
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
 import kotlinx.android.synthetic.main.fragment_fields.*
 import kotlinx.android.synthetic.main.fragment_fields.view.*
 import kotlinx.android.synthetic.main.fragment_keyboard.*
@@ -52,6 +48,8 @@ class FieldsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Log.i("onViewCreated-------->",inputString)
         super.onViewCreated(view, savedInstanceState)
+        disablePopUpMenu(tvInput)
+        disableSoftInputFromAppearing(tvInput)
         tvInput.movementMethod = ScrollingMovementMethod()
         tvInput.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -81,6 +79,50 @@ class FieldsFragment : Fragment() {
             }
         })
 
+        try {
+//            tvInput.setOnClickListener(object : View.OnClickListener {
+//                override fun onClick(v: View?) {
+//                    tvInput.setSelection(0)
+//                }
+//            })
+            tvInput.setOnLongClickListener(object : View.OnLongClickListener {
+                override fun onLongClick(v: View?): Boolean {
+                    return true
+                }
+            })
+            tvInput.setCustomSelectionActionModeCallback(object : ActionMode.Callback {
+                override fun onCreateActionMode(actionMode: ActionMode?, menu: Menu?): Boolean {
+                    return false
+                }
+
+                override fun onPrepareActionMode(actionMode: ActionMode?, menu: Menu?): Boolean {
+                    return false
+                }
+
+                override fun onActionItemClicked(actionMode: ActionMode?, menuItem: MenuItem?): Boolean {
+                    return false
+                }
+
+                override fun onDestroyActionMode(actionMode: ActionMode?) {}
+            })
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        tvInput.customSelectionActionModeCallback = object : ActionMode.Callback {
+            override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
+                return false
+            }
+            override fun onDestroyActionMode(mode: ActionMode) {}
+            override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
+                return false
+            }
+            override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
+                return false
+            }
+        }
+        tvInput.setLongClickable(false);
+
         tvOutput.movementMethod = ScrollingMovementMethod()
         tvOutput.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -105,30 +147,18 @@ class FieldsFragment : Fragment() {
                 btnInput1.setChecked(true)
                 btnOutput1.setChecked(true)
                 btnInput1.text = "EUR"
-//                btnInput1.textOn = "EUR"
-//                btnInput1.textOff = "EUR"
                 btnOutput1.text = "EUR"
-//                btnOutput1.textOn = "EUR"
-//                btnOutput1.textOff = "EUR"
                 btnInput2.text = "USD"
-//                btnInput2.textOn = "USD"
-//                btnInput2.textOff = "USD"
                 btnOutput2.text = "USD"
-//                btnOutput2.textOn = "USD"
-//                btnOutput2.textOff = "USD"
                 btnInput3.text = "BYN"
-//                btnInput3.textOn = "BYN"
-//                btnInput3.textOff = "BYN"
                 btnOutput3.text = "BYN"
-//                btnOutput3.textOn = "BYN"
-//                btnOutput3.textOff = "BYN"
             } else {
             }
         }
         btnCurrency.setOnClickListener {
             if (btnCurrency.isChecked){
-                tvInput.text = "0"
-                tvOutput.text = "0"
+                tvInput.setText("0")
+                tvOutput.setText("0")
             }
         }
         btnDistance.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -138,30 +168,18 @@ class FieldsFragment : Fragment() {
                 btnInput1.setChecked(true)
                 btnOutput1.setChecked(true)
                 btnInput1.text = "KM"
-//                btnInput1.textOn = "KM"
-//                btnInput1.textOff = "KM"
                 btnOutput1.text = "KM"
-//                btnOutput1.textOn = "KM"
-//                btnOutput1.textOff = "KM"
                 btnInput2.text = "M"
-//                btnInput2.textOn = "M"
-//                btnInput2.textOff = "M"
                 btnOutput2.text = "M"
-//                btnOutput2.textOn = "M"
-//                btnOutput2.textOff = "M"
                 btnInput3.text = "CM"
-//                btnInput3.textOn = "CM"
-//                btnInput3.textOff = "CM"
                 btnOutput3.text = "CM"
-//                btnOutput3.textOn = "CM"
-//                btnOutput3.textOff = "CM"
             } else {
             }
         }
         btnDistance.setOnClickListener {
             if (btnDistance.isChecked){
-                tvInput.text = "0"
-                tvOutput.text = "0"
+                tvInput.setText("0")
+                tvOutput.setText("0")
             }
         }
         btnWeight.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -171,30 +189,18 @@ class FieldsFragment : Fragment() {
                 btnInput1.setChecked(true)
                 btnOutput1.setChecked(true)
                 btnInput1.text = "MG"
-//                btnInput1.textOn = "MG"
-//                btnInput1.textOff = "MG"
                 btnOutput1.text = "MG"
-//                btnOutput1.textOn = "MG"
-//                btnOutput1.textOff = "MG"
                 btnInput2.text = "G"
-//                btnInput2.textOn = "G"
-//                btnInput2.textOff = "G"
                 btnOutput2.text = "G"
-//                btnOutput2.textOn = "G"
-//                btnOutput2.textOff = "G"
                 btnInput3.text = "KG"
-//                btnInput3.textOn = "KG"
-//                btnInput3.textOff = "KG"
                 btnOutput3.text = "KG"
-//                btnOutput3.textOn = "KG"
-//                btnOutput3.textOff = "KG"
             } else {
             }
         }
         btnWeight.setOnClickListener {
             if (btnWeight.isChecked){
-                tvInput.text = "0"
-                tvOutput.text = "0"
+                tvInput.setText("0")
+                tvOutput.setText("0")
             }
         }
         // Toggle Buttons Units Input
@@ -264,37 +270,155 @@ class FieldsFragment : Fragment() {
         }
     }
 
+    fun disablePopUpMenu(editText: EditText){
+        if (Build.VERSION.SDK_INT < 11) {
+            editText.setOnCreateContextMenuListener { menu, v, menuInfo ->
+                menu.clear()
+            }
+        } else {
+            Log.i("helllo","-------hoooo")
+            editText.setCustomSelectionActionModeCallback(object : ActionMode.Callback {
+                override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+                    menu?.clear()
+                    return false
+                }
+
+                override fun onDestroyActionMode(mode: ActionMode?) {
+                }
+
+                override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+                    return false
+                }
+
+                override fun onActionItemClicked(
+                    mode: ActionMode?,
+                    item: MenuItem?
+                ): Boolean {
+                    return false
+                }
+            })
+        }
+
+    }
+
+//    v2.0
+//    fun disablePopUpMenu(editText: EditText){
+//
+//        tvInput.setCustomSelectionActionModeCallback(object : ActionMode.Callback {
+//            override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+//                //to keep the text selection capability available ( selection cursor)
+//                return true
+//            }
+//
+//            override fun onPrepareActionMode(mode: ActionMode?, menu: Menu): Boolean {
+//                //to prevent the menu from appearing
+//                menu.clear()
+//                return false
+//            }
+//
+//            override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
+//                return false
+//            }
+//
+//            override fun onDestroyActionMode(mode: ActionMode?) {}
+//        })
+//    }
+
+//    v1.0
+//    fun disableCopyPasteOperations(editText: EditText) {
+//        editText.setCustomSelectionActionModeCallback(object : ActionMode.Callback {
+//            override fun onCreateActionMode(
+//                actionMode: ActionMode?,
+//                menu: Menu?
+//            ): Boolean {
+//                return false
+//            }
+//
+//            override fun onPrepareActionMode(
+//                actionMode: ActionMode?,
+//                menu: Menu?
+//            ): Boolean {
+//                return false
+//            }
+//
+//            override fun onActionItemClicked(
+//                actionMode: ActionMode?,
+//                item: MenuItem?
+//            ): Boolean {
+//                return false
+//            }
+//
+//            override fun onDestroyActionMode(actionMode: ActionMode?) {}
+//        })
+//        editText.isLongClickable = false
+//        editText.setTextIsSelectable(false)
+//    }
+
+
     private fun equalsAction(){
         tvOutput.text = calculateResult()
     }
 
     fun getDigit(digit: String){
-        tvInput.append(digit)
+        if(tvInput.isFocused){
+            val cursorStart = tvInput.selectionStart
+            val firstNumPart = tvInput.text.substring(0,cursorStart)
+            val secondNumPart = tvInput.text.substring(cursorStart, tvInput.length())
+            tvInput.setText(firstNumPart.plus("").plus(digit).plus(secondNumPart))
+            tvInput.setSelection(cursorStart+digit.length)
+        }
+        else {
+            tvInput.text.append(digit)
+        }
+    }
+    fun getInputLength(): Int{
+        return tvInput.length()
     }
     fun isContainsDotFragment(): Boolean{
         return tvInput.text.toString().contains(".")
     }
     fun isOnlyZeroInput(): Boolean{
-        Log.d("Tag", tvInput.text.toString())
-        Log.d("Tag", (tvInput.text == "0").toString())
         return tvInput.text.toString() == "0"
     }
     fun replaceZeroDigit(digit: String){
-        tvInput.text = digit
+        tvInput.setText(digit)
+        tvInput.setSelection(1)
     }
     fun clearAllFields(){
-        tvInput.text = "0"
-        tvOutput.text = "0"
+        tvInput.setText("0")
+        tvOutput.setText("0")
+        tvInput.setSelection(1)
     }
     fun backspaceAction(){
         val length = tvInput.length()
-        if(length > 0)
-            tvInput.text = tvInput.text.subSequence(0,length-1)
+        if (length > 1){
+            if(tvInput.isFocused){
+                val cursorStart = tvInput.selectionStart
+                if(cursorStart==0) return
+                var firstNumPart = tvInput.text.substring(0,cursorStart)
+                firstNumPart = firstNumPart.subSequence(0,firstNumPart.length-1).toString()
+                val secondNumPart = tvInput.text.substring(cursorStart, tvInput.length())
+                tvInput.setText(firstNumPart.plus("").plus(secondNumPart))
+                tvInput.setSelection(cursorStart-1)
+            }
+            else {
+                tvInput.setText(tvInput.text.toString().subSequence(0,length-1))
+            }
+        }
+        else {
+            if (tvInput.isFocused){
+                tvInput.setText("0")
+                tvInput.setSelection(1)
+            }
+            else{
+                tvInput.setText("0")
+            }
+        }
     }
     private fun calculateResult(): String{
         var number = tvInput.text.toString()
-        var firstUnit : Float = 0f
-        var secondUnit : Float = 0f
+        var firstUnit : Double = 0.0
+        var secondUnit : Double = 0.0
         // -----
         var whichUnitInput : Int = 0
         if(btnInput1.isChecked) whichUnitInput = 1
@@ -311,13 +435,13 @@ class FieldsFragment : Fragment() {
                 1 -> firstUnit = cur.EUR
                 2 -> firstUnit = cur.USD
                 3 -> firstUnit = cur.BYN
-                else -> firstUnit = 1f
+                else -> firstUnit = 1.0
             }
             when (whichUnitOutput){
                 1 -> secondUnit = cur.EUR
                 2 -> secondUnit = cur.USD
                 3 -> secondUnit = cur.BYN
-                else -> secondUnit = 1f
+                else -> secondUnit = 1.0
             }
         }
         else if(btnDistance.isChecked){
@@ -326,13 +450,13 @@ class FieldsFragment : Fragment() {
                 1 -> firstUnit = dst.kilometers
                 2 -> firstUnit = dst.meters
                 3 -> firstUnit = dst.centimeters
-                else -> firstUnit = 1f
+                else -> firstUnit = 1.0
             }
             when (whichUnitOutput){
                 1 -> secondUnit = dst.kilometers
                 2 -> secondUnit = dst.meters
                 3 -> secondUnit = dst.centimeters
-                else -> secondUnit = 1f
+                else -> secondUnit = 1.0
             }
         }
         else if(btnWeight.isChecked){
@@ -341,13 +465,13 @@ class FieldsFragment : Fragment() {
                 1 -> firstUnit = wgh.milligrams
                 2 -> firstUnit = wgh.grams
                 3 -> firstUnit = wgh.kilograms
-                else -> firstUnit = 1f
+                else -> firstUnit = 1.0
             }
             when (whichUnitOutput){
                 1 -> secondUnit = wgh.milligrams
                 2 -> secondUnit = wgh.grams
                 3 -> secondUnit = wgh.kilograms
-                else -> secondUnit = 1f
+                else -> secondUnit = 1.0
             }
         }
         var output = Calculations.Calculate(number, firstUnit, secondUnit)
@@ -360,9 +484,9 @@ class FieldsFragment : Fragment() {
         var numOutput = tvInput.text.toString()
         Log.i("numOutput", numOutput)
         isSwiped = true
-        tvOutput.text = numOutput
+        tvOutput.setText(numOutput)
         isSwiped = true
-        tvInput.text = numInput
+        tvInput.setText(numInput)
         if(btnInput1.isChecked) btnOutput = 1
         else if(btnInput2.isChecked) btnOutput = 2
         else if(btnInput3.isChecked) btnOutput = 3
@@ -377,6 +501,16 @@ class FieldsFragment : Fragment() {
     fun copyAction(view: View){
         communicator.copyAction(view)
     }
+    fun pasteAction(digits: String){
+        if(tvInput.text.toString() == "0"){
+            tvInput.setText(digits)
+            tvInput.setSelection(digits.length)
+        }
+        else {
+            getDigit(digits)
+        }
+    }
+
     fun getInputField(): String{
         return tvInput.text.toString()
     }
@@ -414,11 +548,29 @@ class FieldsFragment : Fragment() {
         else if(selected == 3) btnOutput3.isChecked = true
     }
     fun setInputField(str: String){
-        tvInput.text = str
+        tvInput.setText(str)
     }
     fun getOutputField(): String{
         return tvOutput.text.toString()
     }
+
+    // disable soft keyboard
+    fun disableSoftInputFromAppearing(editText: EditText) {
+        if (Build.VERSION.SDK_INT >= 21) {
+            editText.showSoftInputOnFocus = false
+        }
+        else if (Build.VERSION.SDK_INT >= 11) {
+            Log.d("hello---------->","hey")
+            editText.setRawInputType(InputType.TYPE_CLASS_TEXT)
+            editText.setTextIsSelectable(true)
+        } else {
+            Log.d("hello22---------->","hey")
+            editText.setRawInputType(InputType.TYPE_NULL)
+            editText.isFocusable = true
+        }
+    }
+
+
 
 
 

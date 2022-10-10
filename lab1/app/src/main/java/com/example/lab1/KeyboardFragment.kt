@@ -11,16 +11,6 @@ import kotlinx.android.synthetic.main.fragment_fields.*
 import kotlinx.android.synthetic.main.fragment_keyboard.*
 import kotlinx.android.synthetic.main.fragment_keyboard.view.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [KeyboardFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class KeyboardFragment : Fragment() {
     private lateinit var communicator: Communicator
 
@@ -82,7 +72,7 @@ class KeyboardFragment : Fragment() {
         if(view is Button)
         {
             if(view.text == "."){
-                if(!communicator.isContainsDot())
+                if(!communicator.isContainsDotAdd())
                     communicator.passDataCom(view.text.toString())
             }
             else if(communicator.isOnlyZeroInput()){
