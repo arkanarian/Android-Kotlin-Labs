@@ -9,6 +9,7 @@ class DatabaseHelper(context: Context?) :
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(CREATE_TABLE_PH)
         db.execSQL(CREATE_TABLE_T)
+        db.execSQL(FILL_TABLE_T)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -42,11 +43,15 @@ class DatabaseHelper(context: Context?) :
         const val DURATION_PH = "duration"
 
 
-        // Creating table query
+        // Creating table timers query
         private const val CREATE_TABLE_T = ("create table " + TABLE_NAME_T + "(" + _ID
-                + " INTEGER PRIMARY KEY AUTOINCREMENT, " + TITLE_T + " TEXT NOT NULL, " + COLOR_T + " TEXT NOT NULL);")
+                + " INTEGER PRIMARY KEY AUTOINCREMENT, " + TITLE_T + " TEXT NOT NULL, " + COLOR_T + " CHAR(6) NOT NULL);")
 
-        // Creating table phase query
+        // Fill table timers
+        private const val FILL_TABLE_T = ("INSERT INTO " + TABLE_NAME_T + "(" + TITLE_T + ", " + COLOR_T + ")"
+                + "VALUES " + "('running', '123567');")
+
+        // Creating table phases query
         private const val CREATE_TABLE_PH = ("create table " + TABLE_NAME_PH + "(" + _ID
                 + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + TITLE_PH + " TEXT NOT NULL, "

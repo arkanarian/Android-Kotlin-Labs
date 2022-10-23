@@ -6,7 +6,8 @@
         <entry key="app/src/main/res/layout/activity_edit.xml" value="0.35260416666666666" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.5" />
         <entry key="app/src/main/res/layout/activity_phase.xml" value="0.35260416666666666" />
-        <entry key="app/src/main/res/layout/timer_home.xml" value="0.35260416666666666" />
+        <entry key="app/src/main/res/layout/activity_timer.xml" value="0.5234375" />
+        <entry key="app/src/main/res/layout/timer_home.xml" value="0.44921875" />
         <entry key="app/src/main/res/layout/timer_homepage.xml" value="0.25" />
       </map>
     </option>
