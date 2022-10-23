@@ -1,11 +1,10 @@
-package com.journaldev.sqlite
+package com.example.lab2
 
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
-import com.example.lab2.DatabaseHelper
 
 class DBManagerPhase(private val context: Context) {
     private var dbHelper: DatabaseHelper? = null
