@@ -12,6 +12,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="39dp">
+
+    <TextView
+        android:id="@+id/tvTimerId"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
+
     <TextView
         android:id="@+id/tvTimerTitle"
         android:layout_width="120dp"
@@ -20,6 +26,8 @@
         android:background="@color/title_aqua"
         android:gravity="center"
         android:text="timer"
+        android:textSize="16sp"
+        android:fontFamily="@font/playfairdisplay_bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,26 +37,31 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="26 sec"
+        android:textSize="16sp"
+        android:fontFamily="@font/playfairdisplay_regular"
         app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tvTimerId"
-        android:layout_width="0dp"
-        android:layout_height="0dp" />
 
     <Button
         android:id="@+id/btnEdit"
         android:layout_width="70dp"
         android:text="Edit"
+        android:textSize="12sp"
+        android:padding="0dp"
+        android:fontFamily="@font/playfairdisplay_bold"
         android:backgroundTint="@color/btn_edit"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:onClick="OnClickEdit"/>
 
     <Button
         android:id="@+id/btnDelete"
         android:layout_width="70dp"
         android:layout_height="match_parent"
         android:text="Del"
+        android:textSize="12sp"
+        android:padding="0dp"
+        android:fontFamily="@font/playfairdisplay_bold"
         android:backgroundTint="@color/btn_del"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp" />

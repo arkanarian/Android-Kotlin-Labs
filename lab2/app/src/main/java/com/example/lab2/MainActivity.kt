@@ -1,49 +1,54 @@
 package com.example.lab2
 
-import android.R.color
 import android.content.Intent
 import android.database.Cursor
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
-import android.widget.TextView
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_main.*
+import androidx.room.Room
 import kotlinx.android.synthetic.main.timer_home.*
+import kotlinx.android.synthetic.main.timer_home.view.*
 
 
 class MainActivity : AppCompatActivity() {
 
     private var dbManager: DBManagerTimer? = null
-//    private var listView: ListView? = null
-//var recyclerView:RecyclerView? = findViewById(R.id.timer_list)
-//    private var adapter: SimpleCursorAdapter? = null
+    var db = Room.databaseBuilder(
+        applicationContext,
+        AppDatabase::class.java, "timerapp-database"
+    ).build()
     private var adapter: TimerAdapter? = null
     private var ids : MutableList<Int> = ArrayList()
     private var titles : MutableList<String> = ArrayList()
     private var colors : MutableList<String> = ArrayList()
-//    val from = arrayOf(DatabaseHelper._ID, DatabaseHelper.SUBJECT, DatabaseHelper.DESC)
-//    val to = intArrayOf(R.id.id, R.id.title, R.id.desc)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
+        val timerDao: TimerDao? = (applicationContext as MyDatabaseApplication).getAppDatabase()
+            ?.timerDao()
+
+
         dbManager = DBManagerTimer(this)
         dbManager!!.open()
-        val recyclerView = findViewById<RecyclerView>(R.id.timer_list)
+
         // устанавливаем для списка адаптер
+        val recyclerView = findViewById<RecyclerView>(R.id.timer_list)
         recyclerView.adapter = adapter
-//        adapter?.notifyDataSetChanged()
         ids = arrayListOf()
         titles = arrayListOf()
         colors = arrayListOf()
         adapter = TimerAdapter(this, ids, titles, colors)
         recyclerView.setAdapter(adapter)
         recyclerView.setLayoutManager(LinearLayoutManager(this))
+
         displayData()
         Log.d("Titles", titles.joinToString(separator = ", "))
         Log.d("Colors", colors.joinToString(separator = ", "))
@@ -70,10 +75,17 @@ class MainActivity : AppCompatActivity() {
 //                colorCode = cd.color
 //                Log.d("colorCode", colorCode.toString())
 //            }
-            val modify_intent = Intent(applicationContext, ModifyCountryActivity::class.java)
-            modify_intent.putExtra("id", tvTimerId.text.toString())
+            val modify_intent = Intent(this, EditActivity::class.java)
+            modify_intent.putExtra("id", v.tvTimerId.text.toString().toInt())
             startActivity(modify_intent)
         }
+    }
+
+    fun OnClickEdit(view: View)
+    {
+        val modify_intent = Intent(this, EditActivity::class.java)
+        modify_intent.putExtra("id", tvTimerId.text.toString().toInt())
+        startActivity(modify_intent)
     }
 
     private fun displayData()
@@ -85,8 +97,7 @@ class MainActivity : AppCompatActivity() {
         }
         else
         {
-            while (cursor?.moveToNext() == true)
-            {
+            while (cursor?.moveToNext() == true) {
                 ids.add(cursor.getInt(0))
                 titles.add(cursor.getString(1))
                 colors.add(cursor.getString(2))

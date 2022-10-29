@@ -20,25 +20,25 @@ class DBManagerPhase(private val context: Context) {
         dbHelper!!.close()
     }
 
-    fun insert(title: String?, duration: Int?, timer_id: Int?) {
+    fun insert(name: String?, duration: Int?, timer_id: Int?) {
         val contentValue = ContentValues()
-        contentValue.put(DatabaseHelper.TITLE_PH, title)
+        contentValue.put(DatabaseHelper.NAME_PH, name)
         contentValue.put(DatabaseHelper.DURATION_PH, duration)
         contentValue.put(DatabaseHelper.TIMER_ID_PH, timer_id)
         database!!.insert(DatabaseHelper.TABLE_NAME_PH, null, contentValue)
     }
 
     fun fetch(): Cursor? {
-        val columns = arrayOf(DatabaseHelper._ID, DatabaseHelper.TITLE_PH, DatabaseHelper.DURATION_PH, DatabaseHelper.TIMER_ID_PH)
+        val columns = arrayOf(DatabaseHelper._ID, DatabaseHelper.NAME_PH, DatabaseHelper.DURATION_PH, DatabaseHelper.TIMER_ID_PH)
         val cursor =
             database!!.query(DatabaseHelper.TABLE_NAME_PH, columns, null, null, null, null, null)
         cursor?.moveToFirst()
         return cursor
     }
 
-    fun update(_id: Long, title: String?, duration: Int?, timer_id: Int?): Int {
+    fun update(_id: Int, name: String?, duration: Int?, timer_id: Int?): Int {
         val contentValues = ContentValues()
-        contentValues.put(DatabaseHelper.TITLE_PH, title)
+        contentValues.put(DatabaseHelper.NAME_PH, name)
         contentValues.put(DatabaseHelper.DURATION_PH, duration)
         contentValues.put(DatabaseHelper.TIMER_ID_PH, timer_id)
         return database!!.update(
@@ -49,7 +49,7 @@ class DBManagerPhase(private val context: Context) {
         )
     }
 
-    fun delete(_id: Long) {
+    fun delete(_id: Int) {
         database!!.delete(DatabaseHelper.TABLE_NAME_PH, DatabaseHelper._ID + "=" + _id, null)
     }
 }

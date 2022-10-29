@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditActivity"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Timer"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:fontFamily="@font/playfairdisplay_bold"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            style="@style/edit_name_field"
+            android:text="Name:"
+            android:layout_marginLeft="10dp"/>
+
+        <EditText
+            style="@style/edit_change_field"
+            android:id="@+id/etTitle"
+            android:text="Timer"
+            />
+
+    </LinearLayout>
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/green_800"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal">
+
+
+        <TextView
+            style="@style/edit_name_field"
+            android:text="Color:"
+            android:layout_marginLeft="10dp"/>
+
+        <RadioButton
+            android:id="@+id/color_green"
+            style="@style/color_circle"
+            android:backgroundTint="@color/title_green"
+            android:button="@android:color/transparent"/>
+
+        <RadioButton
+            android:id="@+id/color_yellow"
+            style="@style/color_circle"
+            android:button="@android:color/transparent"
+            android:backgroundTint="@color/title_yellow"
+            android:layout_marginStart="10dp"
+            />
+
+        <RadioButton
+            android:id="@+id/color_red"
+            style="@style/color_circle"
+            android:button="@android:color/transparent"
+            android:backgroundTint="@color/title_red"
+            android:layout_marginStart="10dp"
+            />
+
+        <RadioButton
+            android:id="@+id/color_pink"
+            style="@style/color_circle"
+            android:button="@android:color/transparent"
+            android:backgroundTint="@color/title_pink"
+            android:layout_marginStart="10dp"
+            />
+
+        <RadioButton
+            android:id="@+id/color_blue"
+            style="@style/color_circle"
+            android:button="@android:color/transparent"
+            android:backgroundTint="@color/title_blue"
+            android:layout_marginStart="10dp"
+            />
+
+        <RadioButton
+            android:id="@+id/color_aqua"
+            style="@style/color_circle"
+            android:button="@android:color/transparent"
+            android:backgroundTint="@color/title_aqua"
+            android:layout_marginStart="10dp"
+            />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/green_800"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recPhases"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+</LinearLayout>
