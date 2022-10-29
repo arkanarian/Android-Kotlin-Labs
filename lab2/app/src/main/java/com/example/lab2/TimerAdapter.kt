@@ -2,6 +2,7 @@ package com.example.lab2
 
 import android.content.Context
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +34,7 @@ class TimerAdapter internal constructor(context: Context?, ids: MutableList<Int>
     // onBindViewHolder: выполняет привязку объекта ViewHolder к объекту State по определенной позиции.
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.titleView.setText(this.titles.get(position))
+        Log.d("color", this.colors.get(position))
         holder.titleView.setBackgroundColor(Color.parseColor("#" + this.colors.get(position)))
         holder.idView.setText(this.ids.get(position).toString())
     }

@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
+import android.util.Log
 
 class DBManagerTimer(private val context: Context) {
     private var dbHelper: DatabaseHelper? = null
@@ -35,7 +36,16 @@ class DBManagerTimer(private val context: Context) {
         return cursor
     }
 
-    fun update(_id: Long, title: String?, color: String?): Int {
+    fun fetch(_id: Int?): Cursor? {
+        val columns = arrayOf(DatabaseHelper._ID, DatabaseHelper.TITLE_T, DatabaseHelper.COLOR_T)
+//        val cursor =
+//            database!!.query(DatabaseHelper.TABLE_NAME_T, columns, null, null, null, null, null)
+        val cursor: Cursor = database!!.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NAME_T + " WHERE " + DatabaseHelper._ID + " = " + _id + ";", null)
+        cursor?.moveToFirst()
+        return cursor
+    }
+
+    fun update(_id: Int, title: String?, color: String?): Int {
         val contentValues = ContentValues()
         contentValues.put(DatabaseHelper.TITLE_T, title)
         contentValues.put(DatabaseHelper.COLOR_T, color)
@@ -47,7 +57,7 @@ class DBManagerTimer(private val context: Context) {
         )
     }
 
-    fun delete(_id: Long) {
+    fun delete(_id: Int) {
         database!!.delete(DatabaseHelper.TABLE_NAME_T, DatabaseHelper._ID + "=" + _id, null)
     }
 }
