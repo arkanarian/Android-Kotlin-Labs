@@ -1,0 +1,24 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        app:key="app_theme"
+        app:title="@string/theme_title" />
+
+    <ListPreference
+        android:key="font_size"
+        android:defaultValue="medium_font"
+        android:entries="@array/FontSize"
+        android:entryValues="@array/FontSize"
+        android:title="@string/fontsize_title" />
+
+    <ListPreference
+        android:key="language"
+        android:defaultValue="english_language"
+        android:entries="@array/Language"
+        android:entryValues="@array/Language"
+        android:title="@string/language_title" />
+
+
+</PreferenceScreen>

@@ -1,22 +1,26 @@
 package com.example.lab2
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 
 @Dao
 interface TimerDao {
-    @Insert
-    fun insertAll(vararg people: Timer?)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun addTimer(timer: Timer)
+
+    @Update
+    suspend fun updateTimer(timer: Timer)
 
     @Delete
-    fun delete(person: Timer?)
+    suspend fun deleteTimer(timer: Timer)
 
-    @get:Query("SELECT * FROM TimerTable")
-    val allPeople: List<Any?>?
+    @Query("SELECT * FROM TimerTable")
+    fun getTimers(): Flow<List<Timer>>
+
+    @Query("SELECT * FROM TimerTable WHERE id=:id")
+    fun getTimerById(id: Int): Timer
 
     @Query("SELECT * FROM TimerTable WHERE duration LIKE :color")
-    fun getAllPeopleWithFavoriteColor(color: String?): List<Timer?>?
+    fun getAllTimersWithFavoriteColor(color: String?): List<Timer>
 }

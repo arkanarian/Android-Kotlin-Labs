@@ -1,34 +1,22 @@
 package com.example.lab2
 
 import android.content.Context
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-
-
 @Database(
-    entities = [Timer::class /*, AnotherEntityType.class, AThirdEntityType.class */],
-    version = 1,  // bump version number if your schema changes
+    entities = [Timer::class, Phase::class /*, AnotherEntityType.class, AThirdEntityType.class */],
+    version = 3,  // bump version number if your schema changes
+    autoMigrations = [
+        AutoMigration (from = 2, to = 3)
+    ],
     exportSchema = true
 )
 abstract class AppDatabase : RoomDatabase() {
-//    companion object {
-//
-//
-//
-//        // Database name to be used
-//        val NAME = "timerdb"
-////        lateinit var instance: AppDatabase
-////        syncronized fun getInstance(context: Context){
-////            if(instance == null){
-////                instance = Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class.NAME)
-////            .fallbackToDestructiveMigration()
-////            .build()
-////            }
-////        }
-//    }
-
+    abstract fun timerDao(): TimerDao?
+    abstract fun phaseDao(): PhaseDao?
     companion object {
 
         @Volatile
@@ -56,7 +44,4 @@ abstract class AppDatabase : RoomDatabase() {
                 .build()
         }
     }
-
-
-    abstract fun timerDao(): TimerDao?
 }

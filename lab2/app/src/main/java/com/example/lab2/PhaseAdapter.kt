@@ -1,69 +1,115 @@
 package com.example.lab2
 
 
-import android.content.Context
 import android.graphics.Color
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.phase_adapter.*
 
-class PhaseAdapter internal constructor(context: Context?, ids: MutableList<Int>, names: MutableList<String>, phase_duration: MutableList<Int>, rest_duration: MutableList<Int>, repetitions: MutableList<Int>) :
-    RecyclerView.Adapter<PhaseAdapter.MyViewHolder>() {
-    private val inflater: LayoutInflater
-    private val ids: MutableList<Int>
-    private val names: MutableList<String>
-    private val phase_duration: MutableList<Int>
-    private val rest_duration: MutableList<Int>
-    private val repetitions: MutableList<Int>
+class PhaseAdapter : ListAdapter<Phase, PhaseAdapter.MyViewHolder>(DiffCallback()) {
+    class MyViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
-    init {
-        this.ids = ids
-        this.names = names
-        this.phase_duration = phase_duration
-        this.rest_duration = rest_duration
-        this.repetitions = repetitions
-        inflater = LayoutInflater.from(context)
+    private lateinit var listener: RecyclerClickListenerPhase
+    fun setItemListener(listener: RecyclerClickListenerPhase) {
+        this.listener = listener
     }
 
     // onCreateViewHolder: возвращает объект ViewHolder, который будет хранить данные по одному объекту State
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val view: View = inflater.inflate(R.layout.timer_home, parent, false)
-        return MyViewHolder(view)
+        val v =
+            LayoutInflater.from(parent.context).inflate(R.layout.phase_adapter, parent, false)
+        val phaseHolder = MyViewHolder(v)
+
+        val phaseDelete = phaseHolder.itemView.findViewById<Button>(R.id.btnPhaseDelete)
+        phaseDelete.setOnClickListener {
+            listener.onItemRemoveClick(phaseHolder.adapterPosition)
+        }
+
+        val etName = phaseHolder.itemView.findViewById<EditText>(R.id.etPhaseName)
+        etName.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                listener.afterTextChangedName(phaseHolder.adapterPosition, s.toString())
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+        })
+
+        val etDuration = phaseHolder.itemView.findViewById<EditText>(R.id.etPhaseDuration)
+        etDuration.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                listener.afterTextChangedDuration(phaseHolder.adapterPosition, s.toString())
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+        })
+
+        val etDurationRest = phaseHolder.itemView.findViewById<EditText>(R.id.etPhaseDurationRest)
+        etDurationRest.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                listener.afterTextChangedDurationRest(phaseHolder.adapterPosition, s.toString())
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+        })
+
+        val etRepetitions = phaseHolder.itemView.findViewById<EditText>(R.id.etPhaseRepetitions)
+        etRepetitions.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                listener.afterTextChangedRepetitions(phaseHolder.adapterPosition, s.toString())
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+        })
+
+        return phaseHolder
     }
 
     // onBindViewHolder: выполняет привязку объекта ViewHolder к объекту State по определенной позиции.
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.idView.setText(this.ids.get(position).toString())
-        holder.nameView.setText(this.names.get(position))
-        holder.phaseDurationView.setText(this.phase_duration.get(position).toString())
-        holder.restDurationView.setText(this.rest_duration.get(position).toString())
-        holder.repetitionsView.setText(this.repetitions.get(position).toString())
+        val currentItem = getItem(position)
+        val phaseName = holder.itemView.findViewById<EditText>(R.id.etPhaseName)
+        val duration = holder.itemView.findViewById<EditText>(R.id.etPhaseDuration)
+        val duration_rest = holder.itemView.findViewById<EditText>(R.id.etPhaseDurationRest)
+        val repetitions = holder.itemView.findViewById<EditText>(R.id.etPhaseRepetitions)
+        phaseName.setText(currentItem.name)
+        duration.setText(currentItem.duration.toString())
+        duration_rest.setText(currentItem.duration_rest.toString())
+        repetitions.setText(currentItem.repetitions.toString())
     }
 
-    // getItemCount: возвращает количество объектов в списке
-    override fun getItemCount(): Int {
-        return ids.size
-    }
 
-    class MyViewHolder internal constructor(view: View) : RecyclerView.ViewHolder(view) {
-        val idView: TextView
-        val nameView: EditText
-        val phaseDurationView: EditText
-        val restDurationView: EditText
-        val repetitionsView: EditText
+    class DiffCallback : DiffUtil.ItemCallback<Phase>() {
+        override fun areContentsTheSame(oldItem: Phase, newItem: Phase) =
+            oldItem == newItem
 
-        init {
-            idView = view.findViewById(R.id.tvPhaseId)
-            nameView = view.findViewById(R.id.etPhaseName)
-            phaseDurationView = view.findViewById(R.id.etPhaseDuration)
-            restDurationView = view.findViewById(R.id.etRestDuration)
-            repetitionsView = view.findViewById(R.id.etRepetitions)
-        }
+        override fun areItemsTheSame(oldItem: Phase, newItem: Phase) =
+            oldItem.id == newItem.id
     }
 }
