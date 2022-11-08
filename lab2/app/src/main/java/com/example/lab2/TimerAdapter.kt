@@ -7,56 +7,67 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.timer_home.*
+import java.security.AccessController.getContext
 
-class TimerAdapter internal constructor(context: Context?, ids: MutableList<Int>, titles: MutableList<String>, colors: MutableList<String>) :
-    RecyclerView.Adapter<TimerAdapter.MyViewHolder>() {
-    private val inflater: LayoutInflater
-    private val ids: MutableList<Int>
-    private val titles: MutableList<String>
-    private val colors: MutableList<String>
+class TimerAdapter : ListAdapter<Timer, TimerAdapter.MyViewHolder>(DiffCallback()) {
+    class MyViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
-    init {
-        this.ids = ids
-        this.titles = titles
-        this.colors = colors
-        inflater = LayoutInflater.from(context)
+    private lateinit var listener: RecyclerClickListener
+    fun setItemListener(listener: RecyclerClickListener) {
+        this.listener = listener
     }
 
     // onCreateViewHolder: возвращает объект ViewHolder, который будет хранить данные по одному объекту State
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val view: View = inflater.inflate(R.layout.timer_home, parent, false)
-        return MyViewHolder(view)
-    }
+        val v =
+            LayoutInflater.from(parent.context).inflate(R.layout.timer_home, parent, false)
+        val timerHolder = MyViewHolder(v)
 
-    // onBindViewHolder: выполняет привязку объекта ViewHolder к объекту State по определенной позиции.
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.titleView.setText(this.titles.get(position))
-        Log.d("color", this.colors.get(position))
-        holder.titleView.setBackgroundColor(Color.parseColor("#" + this.colors.get(position)))
-        holder.idView.setText(this.ids.get(position).toString())
-    }
-
-    // getItemCount: возвращает количество объектов в списке
-    override fun getItemCount(): Int {
-        return ids.size
-    }
-
-    class MyViewHolder internal constructor(view: View) : RecyclerView.ViewHolder(view) {
-        val idView: TextView
-        val titleView: TextView
-        val durationView: TextView
-        val editView: Button
-        val deleteView: Button
-
-        init {
-            idView = view.findViewById(R.id.tvTimerId)
-            titleView = view.findViewById(R.id.tvTimerTitle)
-            durationView = view.findViewById(R.id.tvTimerDuration)
-            editView = view.findViewById(R.id.btnEdit)
-            deleteView = view.findViewById(R.id.btnDelete)
+        val timerDelete = timerHolder.itemView.findViewById<Button>(R.id.btnTimerDelete)
+        timerDelete.setOnClickListener {
+            listener.onItemRemoveClick(timerHolder.adapterPosition)
         }
+
+        // было CardView
+        val timerEdit = timerHolder.itemView.findViewById<Button>(R.id.btnTimerEdit)
+        timerEdit.setOnClickListener {
+            listener.onItemEditClick(timerHolder.adapterPosition)
+        }
+
+        val timer = timerHolder.itemView.findViewById<LinearLayout>(R.id.linear_timer)
+        timer.setOnClickListener {
+            listener.onItemClick(timerHolder.adapterPosition)
+        }
+
+
+
+        return timerHolder
+    }
+
+    // onBindViewHolder: выполняет привязку объекта ViewHolder к объекту Timer по определенной позиции.
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        val currentItem = getItem(position)
+        val timerTitle = holder.itemView.findViewById<TextView>(R.id.tvTimerTitle)
+        timerTitle.text = currentItem.title
+        timerTitle.setBackgroundResource(currentItem.color.toInt())
+//        timerTitle.setBackgroundColor(Color.parseColor("#" + currentItem.color))
+        val timerDuration = holder.itemView.findViewById<TextView>(R.id.tvTimerDuration)
+        timerDuration.text = currentItem.duration.toString() + " sec"
+    }
+
+    class DiffCallback : DiffUtil.ItemCallback<Timer>() {
+        override fun areContentsTheSame(oldItem: Timer, newItem: Timer) =
+            oldItem == newItem
+
+        override fun areItemsTheSame(oldItem: Timer, newItem: Timer) =
+            oldItem.id == newItem.id
     }
 }

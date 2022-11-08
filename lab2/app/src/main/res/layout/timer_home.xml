@@ -5,9 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="40dp"
     android:orientation="vertical"
-    >
-
-
+    android:id="@+id/linear_timer">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,11 +38,12 @@
         android:textSize="16sp"
         android:fontFamily="@font/playfairdisplay_regular"
         app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="?colorText"/>
 
 
     <Button
-        android:id="@+id/btnEdit"
+        android:id="@+id/btnTimerEdit"
         android:layout_width="70dp"
         android:text="Edit"
         android:textSize="12sp"
@@ -52,10 +51,10 @@
         android:fontFamily="@font/playfairdisplay_bold"
         android:backgroundTint="@color/btn_edit"
         android:layout_height="match_parent"
-        android:onClick="OnClickEdit"/>
+        android:textColor="@android:color/white"/>
 
     <Button
-        android:id="@+id/btnDelete"
+        android:id="@+id/btnTimerDelete"
         android:layout_width="70dp"
         android:layout_height="match_parent"
         android:text="Del"
@@ -64,7 +63,8 @@
         android:fontFamily="@font/playfairdisplay_bold"
         android:backgroundTint="@color/btn_del"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp" />
+        android:layout_marginRight="5dp"
+        android:textColor="@android:color/white"/>
 
     </LinearLayout>
 
@@ -73,6 +73,6 @@
         android:id="@+id/divider2"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/black"/>
+        android:background="?colorLine"/>
 
 </LinearLayout>

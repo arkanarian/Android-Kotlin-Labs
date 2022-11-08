@@ -17,12 +17,6 @@ data class Timer (
     @ColumnInfo(name = "duration")
     var duration: Int,
 
-    @ColumnInfo(name = "duration_rest")
-    var duration_rest: Int,
-
-    @ColumnInfo(name = "repetitions")
-    var repetitions: Int,
-
     @ColumnInfo
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null
@@ -34,21 +28,33 @@ data class Timer (
 //}
 
 
-//@Entity(
-//    foreignKeys = [ForeignKey(
-//        entity = Timer::class,
-//        parentColumns = "name",
-//        childColumns = "timerId"
-//    )]
-//)
-//class Phase {
-//    @PrimaryKey(autoGenerate = true)
-//    var id: Int? = null
-//
-//    @ColumnInfo(name = "name")
-//    var name: String? = null
-//
-//    @ColumnInfo(name = "breed")
-//    var breed: String? = null
-//    var timerId : String? = null
-//}
+@Entity(
+    tableName = "PhaseTable",
+    foreignKeys = [ForeignKey(
+        entity = Timer::class,
+        parentColumns = ["id"],
+        childColumns = ["timerId"],
+        onDelete = ForeignKey.CASCADE
+    )]
+)
+data class Phase (
+
+    @ColumnInfo(name = "name")
+    var name: String,
+
+    @ColumnInfo(name = "duration")
+    var duration: Int,
+
+    @ColumnInfo(name = "duration_rest")
+    var duration_rest: Int,
+
+    @ColumnInfo(name = "repetitions")
+    var repetitions: Int,
+
+    @ColumnInfo(name = "timerId")
+    var timerId: Int?,
+
+    @ColumnInfo
+    @PrimaryKey(autoGenerate = true)
+    var id: Int? = null
+)

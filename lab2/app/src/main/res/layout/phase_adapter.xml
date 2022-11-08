@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="230dp"
     android:orientation="vertical">
 
     <TextView
@@ -16,7 +18,7 @@
 
         <TextView
             style="@style/edit_name_field"
-            android:text="Name (1):"
+            android:text="Name:"
             android:layout_marginLeft="10dp"/>
 
         <EditText
@@ -39,8 +41,8 @@
             android:layout_marginLeft="10dp"/>
 
         <EditText
-            style="@style/edit_change_field"
             android:id="@+id/etPhaseDuration"
+            style="@style/edit_change_field"
             android:text="20"
             />
 
@@ -57,8 +59,8 @@
             android:layout_marginLeft="10dp"/>
 
         <EditText
+            android:id="@+id/etPhaseDurationRest"
             style="@style/edit_change_field"
-            android:id="@+id/etRestDuration"
             android:text="10"
             />
 
@@ -75,15 +77,15 @@
             android:layout_marginLeft="10dp"/>
 
         <EditText
+            android:id="@+id/etPhaseRepetitions"
             style="@style/edit_change_field"
-            android:id="@+id/etRepetitions"
             android:text="2"
             />
 
     </LinearLayout>
 
     <Button
-        android:id="@+id/btnDelete"
+        android:id="@+id/btnPhaseDelete"
         android:layout_width="match_parent"
         android:text="Delete"
         android:textSize="12sp"
@@ -91,12 +93,7 @@
         android:fontFamily="@font/playfairdisplay_bold"
         android:backgroundTint="@color/btn_del"
         android:layout_height="match_parent"
-        android:onClick="OnClickDeletePhase"/>
-
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/black"/>
+        android:onClick="OnClickDeletePhase"
+        android:textColor="@android:color/white"/>
 
 </LinearLayout>
