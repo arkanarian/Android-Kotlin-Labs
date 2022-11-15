@@ -29,6 +29,7 @@
     <string name="new_phase_btn">New phase</string>
     <string name="sec">sec</string>
     <string name="default_phase_name">phase name</string>
+    <string name="default_timer_title">timer title</string>
     <string name="phase_name_edit">Name:</string>
     <string name="phase_duration_edit">Phase duration (sec):</string>
     <string name="rest_duration_edit">Rest duration (sec):</string>
@@ -47,14 +48,8 @@
         <item>@string/english_language</item>
         <item>@string/russian_language</item>
     </string-array>
-    <string name="title_activity_timer_start">TimerStart</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="reps_counting">reps</string>
+    <string name="new_timer_btn">New timer</string>
 </resources>

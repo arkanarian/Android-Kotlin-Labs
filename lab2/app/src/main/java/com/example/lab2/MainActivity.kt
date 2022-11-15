@@ -20,6 +20,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.activity_edit.*
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_timer_start.*
 import kotlinx.android.synthetic.main.timer_home.*
 import kotlinx.android.synthetic.main.timer_home.view.*
@@ -78,6 +80,15 @@ class MainActivity : BaseActivityTheme(), OnSharedPreferenceChangeListener {
                 Log.d("timerList ---- ", timerList.toString())
             }
         }
+        btnTimerNew.setOnClickListener { v->
+            val name = getString(R.string.default_timer_title)
+            val duration = 0
+            val color = R.color.title_aqua
+            val timer = Timer(name, color.toString(), duration)
+            lifecycleScope.launch {
+                timerDatabase?.addTimer(timer)
+            }
+        }
 
     }
 
@@ -116,11 +127,15 @@ class MainActivity : BaseActivityTheme(), OnSharedPreferenceChangeListener {
                 Log.d("TIMER VIEW", "-----------------")
                 val intent = Intent(this@MainActivity, TimerStart::class.java)
                 val timerList = adapter.currentList.toMutableList()
+
                 intent.putExtra("timer_id", timerList[position].id)
                 intent.putExtra("timer_title", timerList[position].title)
                 intent.putExtra("timer_color", timerList[position].color)
                 intent.putExtra("timer_duration", timerList[position].duration)
-                startActivity(intent)
+//                if (timerList[position].duration > 0)
+                    startActivity(intent)
+//                else
+//                    showToast("You can't start timer: duration is 0")
             }
 
             // Tap the btn Edit to edit.
@@ -258,7 +273,6 @@ class MainActivity : BaseActivityTheme(), OnSharedPreferenceChangeListener {
 
     private fun setStartPreferences()
     {
-
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         val language = sharedPreferences.getString("language", "English").toString()
         Log.d("Language 2 --->", language!!)
@@ -290,9 +304,6 @@ class MainActivity : BaseActivityTheme(), OnSharedPreferenceChangeListener {
         PreferenceManager.getDefaultSharedPreferences(this)
             .unregisterOnSharedPreferenceChangeListener(this)
     }
-
-
-
 
     fun OnClickEdit(view: View)
     {

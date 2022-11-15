@@ -11,12 +11,11 @@ class TimerExpiredReceiver : BroadcastReceiver() {
 
     // called whenever the alarm finishes
     override fun onReceive(context: Context, intent: Intent) {
-        PrefUtil.nextTimer()
+        PrefUtil.nextTimer(context)
         // данная функция вызывается после окончания таймера
         if (PrefUtil.isTimerEnd()) {
             Log.d("ACTION_START", "----- timer end -----")
             PrefUtil.resetCurrentPhase()
-            // TODO: предлагать заново запустить таймер, но важно синхронизировать все
 //            NotificationUtil.showTimerExpired(context)
             PrefUtil.setTimerState(TimerStart.TimerState.Stopped, context)
             PrefUtil.setAlarmSetTime(0, context)

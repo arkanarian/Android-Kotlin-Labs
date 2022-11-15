@@ -1,10 +1,16 @@
 package com.example.lab2.util
 
 import android.content.Context
+import android.media.MediaPlayer
+import android.media.RingtoneManager
+import android.net.Uri
+import android.os.CountDownTimer
 import android.util.Log
 import androidx.preference.PreferenceManager
 import com.example.lab2.Phase
+import com.example.lab2.R
 import com.example.lab2.TimerStart
+
 
 class PrefUtil {
     companion object {
@@ -13,6 +19,7 @@ class PrefUtil {
         private var isTimerEnd = false
         private var reps = 0
         private var phaseState = PhaseState.Exercise
+        private var mediaPlayer: MediaPlayer? = null
         enum class PhaseState{
             Exercise, Rest
         }
@@ -64,7 +71,7 @@ class PrefUtil {
             Log.d("current state", "-----------" + phaseState + "-----------")
         }
 
-        fun nextTimer() {
+        fun nextTimer(context: Context) {
 //            Log.d("reps --->", reps.toString())
 //            Log.d("phase state", phaseState.toString())
             if (phaseState == PhaseState.Exercise)
@@ -85,6 +92,7 @@ class PrefUtil {
                     nextPhase()
                 }
             }
+            activateSound(context)
         }
 
         fun nextPhase(){
@@ -120,6 +128,11 @@ class PrefUtil {
 
         fun initPhaseList(phase_list: List<Phase>){
             this.phase_list = phase_list.toMutableList()
+        }
+
+        fun activateSound(context: Context) {
+            val mMediaPlayer: MediaPlayer = MediaPlayer.create(context, R.raw.siii)
+            mMediaPlayer.start()
         }
 
         private const val PREVIOUS_TIMER_LENGTH_SECONDS_ID = "com.lab2.timer.previous_timer_length_seconds"

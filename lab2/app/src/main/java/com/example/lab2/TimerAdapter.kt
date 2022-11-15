@@ -61,7 +61,7 @@ class TimerAdapter(context: Context) : ListAdapter<Timer, TimerAdapter.MyViewHol
         val currentItem = getItem(position)
         val timerTitle = holder.itemView.findViewById<TextView>(R.id.tvTimerTitle)
         timerTitle.text = currentItem.title
-//        timerTitle.setBackgroundResource(currentItem.color.toInt())
+        timerTitle.setBackgroundResource(currentItem.color.toInt())
 //        timerTitle.setBackgroundColor(Color.parseColor("#" + currentItem.color))
         val timerDuration = holder.itemView.findViewById<TextView>(R.id.tvTimerDuration)
         timerDuration.text = currentItem.duration.toString() + " " + context?.getString(R.string.sec)!!
