@@ -37,6 +37,7 @@
     <string name="repetitions_amount_edit">Количество повторений:</string>
     <string name="main_activity_title">Таймеры</string>
     <string name="timer_start_activity_title">Таймер</string>
+    <string name="title_activity_timer_start">Запуск таймера</string>
     <string name="reps_counting">повт</string>
     <string name="new_timer_btn">Новый таймер</string>
 

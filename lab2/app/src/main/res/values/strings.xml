@@ -36,6 +36,8 @@
     <string name="repetitions_amount_edit">Repetitions amount:</string>
     <string name="main_activity_title">Timers</string>
     <string name="timer_start_activity_title">Timer</string>
+    <string name="title_activity_timer_start">Timer Start</string>
+
 
 
     <string-array name="FontSize">

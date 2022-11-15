@@ -60,6 +60,8 @@ class TimerStart : AppCompatActivity() {
     private lateinit var timer: CountDownTimer
     private var timerLengthSeconds: Long = 0L
     private var timerState = TimerState.Stopped
+    private lateinit var servicePrefIntent: Intent
+    private lateinit var serviceNotifyIntent: Intent
 
     private var secondsRemaining: Long = 0L
 
@@ -88,10 +90,13 @@ class TimerStart : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.title = getString(R.string.timer_start_activity_title)
 
+
         fab_start.setOnClickListener{v ->
             startTimer()
             timerState = TimerState.Running
             updateButtons()
+            val serviceIntent = Intent(this, MainService::class.java)
+            startService(serviceIntent)
         }
 
         fab_pause.setOnClickListener { v ->
@@ -232,8 +237,17 @@ class TimerStart : AppCompatActivity() {
             updateCountdownUI()
         }
 
+        fab_exit.setOnClickListener { v->
+            val serviceIntent = Intent(this, MainService::class.java)
+            stopService(serviceIntent)
+//            startService(serviceIntent)
+//            stopService(serviceNotifyIntent)
+            finish()
+        }
+
         // TODO: редактирование фазы проверки крашатся
         // TODO: preferences - изменение размера шрифта и языка
+        // TODO: service
     }
 
 
@@ -257,6 +271,14 @@ class TimerStart : AppCompatActivity() {
             timer.cancel()
             val wakeUpTime = setAlarm(this, nowSeconds, secondsRemaining)
             // show notification
+            val serviceIntent = Intent(this, MainService::class.java)
+
+//        startForeground(servicePrefIntent)
+            startService(serviceIntent)
+//            startForegroundService(servicePrefIntent)
+//            serviceNotifyIntent = Intent(this, NotificationUtil::class.java)
+//        startForeground(serviceNotifyIntent)
+//            startForegroundService(serviceNotifyIntent)
             NotificationUtil.showTimerRunning(this, wakeUpTime)
         }
         else if (timerState == TimerState.Paused){

@@ -1,10 +1,13 @@
 package com.example.lab2.util
 
+import android.app.Service
 import android.content.Context
+import android.content.Intent
 import android.media.MediaPlayer
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.CountDownTimer
+import android.os.IBinder
 import android.util.Log
 import androidx.preference.PreferenceManager
 import com.example.lab2.Phase
@@ -12,14 +15,26 @@ import com.example.lab2.R
 import com.example.lab2.TimerStart
 
 
-class PrefUtil {
+class PrefUtil : Service() {
+    override fun onBind(p0: Intent?): IBinder? = null
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        Log.d("PrefUtil", "----------- Service Started -----------")
+        return super.onStartCommand(intent, flags, startId)
+    }
+
+    // service is destroying
+    override fun onDestroy() {
+        Log.d("PrefUtil", "----------- Service Destroyed -----------")
+        super.onDestroy()
+    }
+
     companion object {
         private var current_phase: Phase? = null
         private var phase_list: MutableList<Phase> = mutableListOf()
         private var isTimerEnd = false
         private var reps = 0
         private var phaseState = PhaseState.Exercise
-        private var mediaPlayer: MediaPlayer? = null
         enum class PhaseState{
             Exercise, Rest
         }
