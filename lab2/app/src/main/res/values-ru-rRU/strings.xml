@@ -30,12 +30,14 @@
     <string name="new_phase_btn">Новая фаза</string>
     <string name="sec">сек</string>
     <string name="default_phase_name">Название фазы</string>
+    <string name="default_timer_title">Название таймера</string>
     <string name="phase_name_edit">Название:</string>
     <string name="phase_duration_edit">Длительность фазы (сек):</string>
     <string name="rest_duration_edit">Длительность отдыха (сек):</string>
     <string name="repetitions_amount_edit">Количество повторений:</string>
     <string name="main_activity_title">Таймеры</string>
     <string name="timer_start_activity_title">Таймер</string>
-    <string name="reps_counting">reps</string>
+    <string name="reps_counting">повт</string>
+    <string name="new_timer_btn">Новый таймер</string>
 
 </resources>

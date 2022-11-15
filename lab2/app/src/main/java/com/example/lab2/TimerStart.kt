@@ -76,7 +76,6 @@ class TimerStart : AppCompatActivity() {
         val job = CoroutineScope(IO).launch {
             val phaseList = phaseDatabase?.getPhasesByTimerIdSimple(timer_inst?.id)
             PrefUtil.initPhaseList(phaseList!!.toMutableList())
-            NotificationUtil.initPhaseList(phaseList!!.toMutableList())
             PrefUtil.initFirstPhase()
             updateDoneRepsCurrentPhase()
             highlightCurrentPhase()
@@ -233,8 +232,6 @@ class TimerStart : AppCompatActivity() {
             updateCountdownUI()
         }
 
-        // TODO: сделать звук
-        // TODO: создание таймера - активити
         // TODO: редактирование фазы проверки крашатся
         // TODO: preferences - изменение размера шрифта и языка
     }
@@ -314,7 +311,7 @@ class TimerStart : AppCompatActivity() {
 
         //set the length of the timer to be the one set in SettingsActivity
         //if the length was changed when the timer was running
-        PrefUtil.nextTimer()
+        PrefUtil.nextTimer(this)
         if (PrefUtil.isTimerEnd()) {
             Log.d("end", "----- timer end ----")
             PrefUtil.resetCurrentPhase()

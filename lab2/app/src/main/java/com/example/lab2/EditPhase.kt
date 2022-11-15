@@ -171,8 +171,9 @@ class EditPhase : BaseActivityTheme() {
                             id!!
                         )
                         phaseDatabase?.updatePhase(updatePhase)
+                        Log.d("after update phase", "----------- exec ------------")
                         recalculateTimerDuration()
-                        finish()
+//                        finish()
                     }
                 }
             }
@@ -184,13 +185,17 @@ class EditPhase : BaseActivityTheme() {
         lifecycleScope.launch {
             var timer = timerDatabase?.getTimerById(timer_id!!)
             var duration = 0
+            Log.d("before phases list", "------------")
             phaseDatabase?.getPhasesByTimerId(timer_id)?.collect { phaseList ->
+                // TODO: вылетает обращение к бд
+                Log.d("phaseList --------->", phaseList.toString())
                 if (phaseList.isNotEmpty()) {
                     for (phase in phaseList){
                         duration += (phase.duration + phase.duration_rest) * phase.repetitions
                     }
                 }
             }
+            Log.d("new duration", "------------- " + duration + " -------------")
             timer?.duration = duration
             timerDatabase?.updateTimer(timer!!)
         }

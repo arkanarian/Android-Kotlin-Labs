@@ -22,18 +22,6 @@ class NotificationUtil {
         private const val CHANNEL_ID_TIMER = "menu_timer"
         private const val CHANNEL_NAME_TIMER = "Timer App Timer"
         private const val TIMER_ID = 0
-        private var current_phase: Phase? = null
-        private var phase_list: MutableList<Phase> = mutableListOf()
-        private var isTimerEnd = false
-        private var reps = 0
-        private var phaseState = PhaseState.Exercise
-        enum class PhaseState{
-            Exercise, Rest
-        }
-
-        fun initPhaseList(phase_list: List<Phase>){
-            this.phase_list = phase_list.toMutableList()
-        }
 
         fun startNewPhase(context: Context) {
             val secondsRemaining = PrefUtil.getTimerLength(context).toLong()
