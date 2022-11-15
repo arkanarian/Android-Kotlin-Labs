@@ -24,6 +24,9 @@ interface PhaseDao {
     @Query("SELECT * FROM PhaseTable WHERE timerId=:id")
     fun getPhasesByTimerId(id: Int?): Flow<List<Phase>>
 
+    @Query("SELECT * FROM PhaseTable WHERE timerId=:id")
+    suspend fun getPhasesByTimerIdSimple(id: Int?): List<Phase>
+
     @Query("SELECT * FROM PhaseTable WHERE id=:id")
     suspend fun getPhaseById(id: Int): Phase
 }

@@ -21,6 +21,7 @@ class App : Application() {
         }else {
             change =""
         }
+        Log.d("change --->", change!!)
 
         BaseActivity.dLocale = Locale(change) //set any locale you want here
     }

@@ -2,11 +2,11 @@ package com.example.lab2
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,16 +16,14 @@ import kotlinx.android.synthetic.main.phase_adapter.*
 import kotlinx.coroutines.launch
 
 
-class EditActivity : AppCompatActivity() {
+class EditActivity : BaseActivityTheme() {
 
     private val phaseDatabase by lazy { AppDatabase.getDatabase(this).phaseDao() }
     private val timerDatabase by lazy { AppDatabase.getDatabase(this).timerDao() }
     private lateinit var adapter: PhaseAdapter
     private var timer: Timer? = null
     private var localPhaseList: MutableList<Phase> = mutableListOf()
-    private var todeletePhaseList: MutableList<Phase> = mutableListOf()
     private var localTimerTitle: String = ""
-    private var isFieldsCorrect = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,33 +32,46 @@ class EditActivity : AppCompatActivity() {
         initTimerInfo()
         displayPhasesInfo()
 
-        lifecycleScope.launch {
-            phaseDatabase?.getPhasesByTimerId(timer?.id)?.collect { phaseList ->
-                localPhaseList = phaseList.toMutableList()
-                if (localPhaseList.isNotEmpty()) {
-                    adapter.submitList(localPhaseList)
-                    phases_list.smoothScrollToPosition(localPhaseList.size-1)
-                }
-            }
-        }
+//        lifecycleScope.launch {
+//            phaseDatabase?.getPhasesByTimerId(timer?.id)?.collect { phaseList ->
+//                localPhaseList = phaseList.toMutableList()
+//                if (localPhaseList.isNotEmpty()) {
+//                    adapter.submitList(localPhaseList)
+//                    phases_list.smoothScrollToPosition(localPhaseList.size-1)
+//                }
+//            }
+//        }
 
         btnPhaseNew.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
-                createUnsavedPhase()
-//                displayPhasesInfo()
-                displayPhasesInfo()
-                phases_list.smoothScrollToPosition(localPhaseList.size-1)
+                val name = getString(R.string.default_phase_name)
+                val duration = 4
+                val duration_rest = 10
+                val repetitions = 1
+                val timerId = timer?.id
+                val phase = Phase(name, duration, duration_rest, repetitions, timerId)
+                lifecycleScope.launch {
+                    phaseDatabase?.addPhase(phase)
+                    phaseDatabase?.getPhasesByTimerId(timer?.id)?.collect { phaseList ->
+                        if (phaseList.isNotEmpty()) {
+                            phases_list.smoothScrollToPosition(phaseList.size)
+                        }
+                    }
+                    recalculateTimerDuration()
+                }
             }
         })
         btnTimerSave.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
                 saveTimerInfo()
-//                displayPhasesInfo()
-                displayPhasesInfo()
                 displayTimerInfo()
             }
         })
 
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 
 
@@ -70,11 +81,10 @@ class EditActivity : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.phases_list)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
-        adapter = PhaseAdapter()
+        adapter = PhaseAdapter(this)
 
         adapter.setItemListener(object : RecyclerClickListenerPhase {
-
-            // Tap the btnDelete to delete the note.
+            // Tap the btnDelete to delete the phase.
             override fun onItemRemoveClick(position: Int) {
                 val phaseList = adapter.currentList.toMutableList()
                 val name = phaseList[position].name
@@ -84,140 +94,28 @@ class EditActivity : AppCompatActivity() {
                 val timerId = phaseList[position].timerId
                 val id = phaseList[position].id
                 val removePhase = Phase(name, duration, duration_rest, repetitions, timerId, id)
-                localPhaseList.remove(removePhase)
-                displayPhasesInfo()
-            }
-
-            // Check correction of name field.
-            override fun afterTextChangedName(position: Int, s: String) {
-                val phaseList = adapter.currentList.toMutableList()
-                val name = phaseList[position].name
-                val duration = phaseList[position].duration
-                val duration_rest = phaseList[position].duration_rest
-                val repetitions = phaseList[position].repetitions
-                val timer_id = timer?.id
-                val id = phaseList[position].id
-                if(s.length > 20)
-                {
-                    etPhaseName.setText(name)
+                lifecycleScope.launch {
+                    phaseDatabase?.deletePhase(removePhase)
+                    recalculateTimerDuration()
                 }
-                else
-                {
-                    lifecycleScope.launch {
-                        val updatePhase = Phase(name, duration, duration_rest, repetitions, timer_id, id)
-                        phaseDatabase?.updatePhase(updatePhase)
-                    }
-//                    localPhaseList.find { it.id == id }?.name = s
-                }
-                displayPhasesInfo()
             }
 
-            // Check correction of duration field.
-            override fun afterTextChangedDuration(position: Int, s: String) {
-                val phaseList = adapter.currentList.toMutableList()
-                val duration = phaseList[position].duration
-                val id = phaseList[position].id
-                try {
-                    if(s.length == 0)
-                    {
-                        etPhaseDuration.setText("0")
-                        localPhaseList.find { it.id == id }?.duration = 0
-                    }
-                    // тут была проверка когда стоит 0, перезаписывать вводимым числом
-//                    else if (localPhaseList.find { it.id == id }?.duration == 0)
-//                    {
-//                        val value = s.substring(1, s.length)
-//                        Log.d("value", value)
-//                        Log.d("s", s)
-//                        etPhaseDuration.setText(value)
-//                        localPhaseList.find { it.id == id }?.duration = value.toInt()
-//                        return
-//                    }
-                    else if(s.toInt() > 999)
-                    {
-                        etPhaseDuration.setText(duration.toString())
-                    }
-                    else{
-                        localPhaseList.find { it.id == id }?.duration = s.toInt()
-                    }
-                } catch (ex: NumberFormatException) {
-                    etPhaseDuration.setText(duration.toString())
-                    return
-                }
-                displayPhasesInfo()
-            }
-
-            // Check correction of duration rest field.
-            override fun afterTextChangedDurationRest(position: Int, s: String) {
-                val phaseList = adapter.currentList.toMutableList()
-                val duration_rest = phaseList[position].duration_rest
-                val id = phaseList[position].id
-                try {
-                    if(s.length == 0)
-                    {
-                        etPhaseDuration.setText("0")
-                        localPhaseList.find { it.id == id }?.duration_rest = 0
-                    }
-                    else if(s.toInt() > 999)
-                    {
-                        etPhaseDurationRest.setText(duration_rest.toString())
-                    }
-                    else
-                    {
-                        localPhaseList.find { it.id == id }?.duration_rest = s.toInt()
-                    }
-                } catch (ex: NumberFormatException) {
-                    etPhaseDurationRest.setText(duration_rest.toString())
-                    return
-                }
-                displayPhasesInfo()
-            }
-
-            // Check correction of repetitions field.
-            override fun afterTextChangedRepetitions(position: Int, s: String) {
-                val phaseList = adapter.currentList.toMutableList()
-                val repetitions = phaseList[position].repetitions
-                val id = phaseList[position].id
-                try {
-                    if(s.length == 0)
-                    {
-                        etPhaseDuration.setText("0")
-                        localPhaseList.find { it.id == id }?.repetitions = 0
-                    }
-                    else if(s.toInt() > 19)
-                    {
-                        etPhaseRepetitions.setText(repetitions.toString())
-                    }
-                    localPhaseList.find { it.id == id }?.repetitions = s.toInt()
-                    displayPhasesInfo()
-                } catch (ex: NumberFormatException) {
-                    etPhaseRepetitions.setText(repetitions.toString())
-                    return
-                }
-                displayPhasesInfo()
-            }
-        })
-
-        etTitle.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                if (s.toString().length > 16)
-                {
-                    etTitle.setText(localTimerTitle)
-                    return
-                }
-                localTimerTitle = s.toString()
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            // Tap the btnEdit to edit the phase.
+            override fun onItemEditClick(position: Int) {
+                val intent = Intent(this@EditActivity, EditPhase::class.java)
+                val phasesList = adapter.currentList.toMutableList()
+                intent.putExtra("name", phasesList[position].name)
+                intent.putExtra("duration", phasesList[position].duration)
+                intent.putExtra("duration_rest", phasesList[position].duration_rest)
+                intent.putExtra("repetitions", phasesList[position].repetitions)
+                intent.putExtra("timer_id", phasesList[position].timerId)
+                intent.putExtra("id", phasesList[position].id)
+                startActivity(intent)
             }
         })
 
         recyclerView.adapter = adapter
     }
-
 
     private fun displayTimerInfo()
     {
@@ -238,38 +136,13 @@ class EditActivity : AppCompatActivity() {
     {
         Log.d("adapter.currentList", adapter.currentList.toMutableList().toString())
         lifecycleScope.launch {
-            Log.d("localPhaseList", localPhaseList.toString())
-            if (localPhaseList.isNotEmpty()) {
-                adapter.submitList(localPhaseList)
+            phaseDatabase?.getPhasesByTimerId(timer?.id)?.collect { phaseList ->
+                if (phaseList.isNotEmpty()) {
+                    adapter.submitList(phaseList)
+//                    phases_list.smoothScrollToPosition(localPhaseList.size-1)
+                }
             }
         }
-    }
-
-
-    private fun displayPhasesInfoWithScroll()
-    {
-        Log.d("adapter.currentList", adapter.currentList.toMutableList().toString())
-        lifecycleScope.launch {
-            Log.d("localPhaseList", localPhaseList.toString())
-            if (localPhaseList.isNotEmpty()) {
-                adapter.submitList(localPhaseList)
-                phases_list.smoothScrollToPosition(localPhaseList.size-1)
-            }
-        }
-    }
-
-
-    private fun createUnsavedPhase()
-    {
-        val name = "phase name"
-        val duration = 40
-        val duration_rest = 10
-        val repetitions = 0
-        val timerId = timer?.id
-        val phase = Phase(name, duration, duration_rest, repetitions, timerId)
-        localPhaseList.add(phase)
-        displayPhasesInfoWithScroll()
-        Log.d("localPhaseList", "createUnsavedPhase --->" + localPhaseList.toString())
     }
 
 
@@ -284,18 +157,11 @@ class EditActivity : AppCompatActivity() {
         else if (color_blue.isChecked) color = R.color.title_blue.toString()
         else if (color_aqua.isChecked) color = R.color.title_aqua.toString()
         else color = "000000"
-        var duration = 0
 
-        val updateTimer = Timer(title, color, duration, timer?.id)
+        // TODO: почемуто цвет не применяется
+
+        val updateTimer = Timer(title, color, timer?.duration!!.toInt(), timer?.id)
         lifecycleScope.launch {
-            phaseDatabase?.deletePhasesByTimerId(timer?.id)
-            for (addPhase in localPhaseList)
-            {
-                phaseDatabase?.addPhase(addPhase)
-                duration += (addPhase.duration + addPhase.duration_rest) * addPhase.repetitions
-            }
-            localPhaseList = mutableListOf()
-
             timerDatabase?.updateTimer(updateTimer)
         }
         this.timer = updateTimer
@@ -320,6 +186,23 @@ class EditActivity : AppCompatActivity() {
         else if (color.toInt() == R.color.title_blue) color_blue.isChecked = true
     }
 
+    private fun recalculateTimerDuration(){
+        // TODO: сделать апдейт timer duration
+        lifecycleScope.launch {
+            var duration = timer?.duration!!.toInt()
+            phaseDatabase?.getPhasesByTimerId(timer?.id)?.collect { phaseList ->
+                if (phaseList.isNotEmpty()) {
+                    for (phase in phaseList){
+                        duration += (phase.duration + phase.duration_rest) * phase.repetitions
+                    }
+                }
+            }
+            timer?.duration = duration
+            // TODO: почему то логи не выводятся
+            Log.d("new duration -----", duration.toString())
+            timerDatabase?.updateTimer(timer!!)
+        }
+    }
 
     fun returnHome() {
         val home_intent = Intent(applicationContext, MainActivity::class.java)

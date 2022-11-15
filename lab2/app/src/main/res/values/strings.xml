@@ -1,15 +1,6 @@
 <resources>
     <string name="app_name">lab2</string>
-    <string name="title_activity_settings">SettingsActivity</string>
-
-    <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
-
-    <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
-
+    <string name="title_activity_settings">Settings</string>
 
     <string name="action_settings">Settings</string>
 
@@ -17,10 +8,6 @@
     <string name="theme_title">Dark theme</string>
     <string name="fontsize_title">Font size</string>
     <string name="language_title">Language</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
 
     <!-- Font Size array-->
     <string name="small_font">Small</string>
@@ -30,6 +17,24 @@
 
     <string name="english_language">English</string>
     <string name="russian_language">Русский</string>
+    <string name="delete_btn">Delete</string>
+    <string name="edit_btn">Edit</string>
+    <string name="save_btn">Save</string>
+    <string name="phase_name">Phase:</string>
+    <string name="ending_duration"> sec\nduration</string>
+    <string name="ending_duration_rest"> sec\nrest</string>
+    <string name="ending_repetitions">\nreps</string>
+    <string name="timer_name">Name:</string>
+    <string name="color_edit">Color:</string>
+    <string name="new_phase_btn">New phase</string>
+    <string name="sec">sec</string>
+    <string name="default_phase_name">phase name</string>
+    <string name="phase_name_edit">Name:</string>
+    <string name="phase_duration_edit">Phase duration (sec):</string>
+    <string name="rest_duration_edit">Rest duration (sec):</string>
+    <string name="repetitions_amount_edit">Repetitions amount:</string>
+    <string name="main_activity_title">Timers</string>
+    <string name="timer_start_activity_title">Timer</string>
 
 
     <string-array name="FontSize">
@@ -42,4 +47,14 @@
         <item>@string/english_language</item>
         <item>@string/russian_language</item>
     </string-array>
+    <string name="title_activity_timer_start">TimerStart</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="reps_counting">reps</string>
 </resources>

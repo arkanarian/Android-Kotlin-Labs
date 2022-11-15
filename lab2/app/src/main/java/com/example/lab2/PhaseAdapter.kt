@@ -1,7 +1,9 @@
 package com.example.lab2
 
 
+import android.content.Context
 import android.graphics.Color
+import android.provider.Settings.Global.getString
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -17,9 +19,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.phase_adapter.*
 
-class PhaseAdapter : ListAdapter<Phase, PhaseAdapter.MyViewHolder>(DiffCallback()) {
+class PhaseAdapter(context: Context) : ListAdapter<Phase, PhaseAdapter.MyViewHolder>(DiffCallback()) {
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
+    var context: Context? = null
+    init {
+        this.context = context
+    }
     private lateinit var listener: RecyclerClickListenerPhase
     fun setItemListener(listener: RecyclerClickListenerPhase) {
         this.listener = listener
@@ -36,57 +42,10 @@ class PhaseAdapter : ListAdapter<Phase, PhaseAdapter.MyViewHolder>(DiffCallback(
             listener.onItemRemoveClick(phaseHolder.adapterPosition)
         }
 
-        val etName = phaseHolder.itemView.findViewById<EditText>(R.id.etPhaseName)
-        etName.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                listener.afterTextChangedName(phaseHolder.adapterPosition, s.toString())
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-        })
-
-        val etDuration = phaseHolder.itemView.findViewById<EditText>(R.id.etPhaseDuration)
-        etDuration.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                listener.afterTextChangedDuration(phaseHolder.adapterPosition, s.toString())
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-        })
-
-        val etDurationRest = phaseHolder.itemView.findViewById<EditText>(R.id.etPhaseDurationRest)
-        etDurationRest.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                listener.afterTextChangedDurationRest(phaseHolder.adapterPosition, s.toString())
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-        })
-
-        val etRepetitions = phaseHolder.itemView.findViewById<EditText>(R.id.etPhaseRepetitions)
-        etRepetitions.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                listener.afterTextChangedRepetitions(phaseHolder.adapterPosition, s.toString())
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-        })
+        val phaseEdit = phaseHolder.itemView.findViewById<Button>(R.id.btnPhaseEdit)
+        phaseEdit.setOnClickListener {
+            listener.onItemEditClick(phaseHolder.adapterPosition)
+        }
 
         return phaseHolder
     }
@@ -94,14 +53,14 @@ class PhaseAdapter : ListAdapter<Phase, PhaseAdapter.MyViewHolder>(DiffCallback(
     // onBindViewHolder: выполняет привязку объекта ViewHolder к объекту State по определенной позиции.
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = getItem(position)
-        val phaseName = holder.itemView.findViewById<EditText>(R.id.etPhaseName)
-        val duration = holder.itemView.findViewById<EditText>(R.id.etPhaseDuration)
-        val duration_rest = holder.itemView.findViewById<EditText>(R.id.etPhaseDurationRest)
-        val repetitions = holder.itemView.findViewById<EditText>(R.id.etPhaseRepetitions)
+        val phaseName = holder.itemView.findViewById<TextView>(R.id.tvPhaseName)
+        val duration = holder.itemView.findViewById<TextView>(R.id.tvDuration)
+        val duration_rest = holder.itemView.findViewById<TextView>(R.id.tvDurationRest)
+        val repetitions = holder.itemView.findViewById<TextView>(R.id.tvRepetitions)
         phaseName.setText(currentItem.name)
-        duration.setText(currentItem.duration.toString())
-        duration_rest.setText(currentItem.duration_rest.toString())
-        repetitions.setText(currentItem.repetitions.toString())
+        duration.setText(currentItem.duration.toString() + " " + context?.getString(R.string.ending_duration)!!)
+        duration_rest.setText(currentItem.duration_rest.toString() + " " + context?.getString(R.string.ending_duration_rest)!!)
+        repetitions.setText(currentItem.repetitions.toString() + context?.getString(R.string.ending_repetitions)!!)
     }
 
 

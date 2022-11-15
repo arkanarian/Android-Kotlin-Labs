@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="280dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvPhaseId"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/edit_name_field"
+            android:text="@string/phase_name_edit"
+            android:layout_marginLeft="10dp"/>
+
+        <EditText
+            style="@style/edit_change_field"
+            android:id="@+id/etPhaseName"
+            android:text="Phase Name"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal">
+
+
+        <TextView
+            style="@style/edit_name_field"
+            android:text="@string/phase_duration_edit"
+            android:layout_marginLeft="10dp"/>
+
+        <EditText
+            android:id="@+id/etPhaseDuration"
+            style="@style/edit_change_field"
+            android:text="20"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/edit_name_field"
+            android:text="@string/rest_duration_edit"
+            android:layout_marginLeft="10dp"/>
+
+        <EditText
+            android:id="@+id/etPhaseDurationRest"
+            style="@style/edit_change_field"
+            android:text="10"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/edit_name_field"
+            android:text="@string/repetitions_amount_edit"
+            android:layout_marginLeft="10dp"/>
+
+        <EditText
+            android:id="@+id/etPhaseRepetitions"
+            style="@style/edit_change_field"
+            android:text="2"
+            />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnPhaseSave"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="@string/save_btn"
+        android:textSize="12sp"
+        android:padding="0dp"
+        android:fontFamily="@font/playfairdisplay_bold"
+        android:backgroundTint="@color/btn_edit"
+        android:textColor="@android:color/white"
+        android:layout_marginHorizontal="10dp"/>
+
+</LinearLayout>

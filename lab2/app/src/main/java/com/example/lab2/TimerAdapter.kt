@@ -17,9 +17,13 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.timer_home.*
 import java.security.AccessController.getContext
 
-class TimerAdapter : ListAdapter<Timer, TimerAdapter.MyViewHolder>(DiffCallback()) {
+class TimerAdapter(context: Context) : ListAdapter<Timer, TimerAdapter.MyViewHolder>(DiffCallback()) {
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
+    var context: Context? = null
+    init {
+        this.context = context
+    }
     private lateinit var listener: RecyclerClickListener
     fun setItemListener(listener: RecyclerClickListener) {
         this.listener = listener
@@ -57,10 +61,10 @@ class TimerAdapter : ListAdapter<Timer, TimerAdapter.MyViewHolder>(DiffCallback(
         val currentItem = getItem(position)
         val timerTitle = holder.itemView.findViewById<TextView>(R.id.tvTimerTitle)
         timerTitle.text = currentItem.title
-        timerTitle.setBackgroundResource(currentItem.color.toInt())
+//        timerTitle.setBackgroundResource(currentItem.color.toInt())
 //        timerTitle.setBackgroundColor(Color.parseColor("#" + currentItem.color))
         val timerDuration = holder.itemView.findViewById<TextView>(R.id.tvTimerDuration)
-        timerDuration.text = currentItem.duration.toString() + " sec"
+        timerDuration.text = currentItem.duration.toString() + " " + context?.getString(R.string.sec)!!
     }
 
     class DiffCallback : DiffUtil.ItemCallback<Timer>() {
