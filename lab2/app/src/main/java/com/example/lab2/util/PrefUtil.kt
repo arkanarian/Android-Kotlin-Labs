@@ -15,19 +15,19 @@ import com.example.lab2.R
 import com.example.lab2.TimerStart
 
 
-class PrefUtil : Service() {
-    override fun onBind(p0: Intent?): IBinder? = null
-
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Log.d("PrefUtil", "----------- Service Started -----------")
-        return super.onStartCommand(intent, flags, startId)
-    }
-
-    // service is destroying
-    override fun onDestroy() {
-        Log.d("PrefUtil", "----------- Service Destroyed -----------")
-        super.onDestroy()
-    }
+class PrefUtil {
+//    override fun onBind(p0: Intent?): IBinder? = null
+//
+//    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+//        Log.d("PrefUtil", "----------- Service Started -----------")
+//        return super.onStartCommand(intent, flags, startId)
+//    }
+//
+//    // service is destroying
+//    override fun onDestroy() {
+//        Log.d("PrefUtil", "----------- Service Destroyed -----------")
+//        super.onDestroy()
+//    }
 
     companion object {
         private var current_phase: Phase? = null

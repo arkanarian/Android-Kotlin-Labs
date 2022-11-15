@@ -15,19 +15,19 @@ import com.example.lab2.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class NotificationUtil : Service() {
-    override fun onBind(p0: Intent?): IBinder? = null
-
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Log.d("NotificationUtil", "----------- Service Started -----------")
-        return super.onStartCommand(intent, flags, startId)
-    }
-
-    // service is destroying
-    override fun onDestroy() {
-        Log.d("NotificationUtil", "----------- Service Destroyed -----------")
-        super.onDestroy()
-    }
+class NotificationUtil {
+//    override fun onBind(p0: Intent?): IBinder? = null
+//
+//    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+//        Log.d("NotificationUtil", "----------- Service Started -----------")
+//        return super.onStartCommand(intent, flags, startId)
+//    }
+//
+//    // service is destroying
+//    override fun onDestroy() {
+//        Log.d("NotificationUtil", "----------- Service Destroyed -----------")
+//        super.onDestroy()
+//    }
 
     companion object {
         private const val CHANNEL_ID_TIMER = "menu_timer"

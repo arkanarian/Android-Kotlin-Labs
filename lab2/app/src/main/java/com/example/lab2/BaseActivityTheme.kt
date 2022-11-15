@@ -7,7 +7,6 @@ import androidx.preference.PreferenceManager
 
 
 abstract class BaseActivityTheme : AppCompatActivity() {
-    var theme: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
