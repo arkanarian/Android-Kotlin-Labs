@@ -1,23 +1,34 @@
 package com.example.lab2.util
 
 import android.annotation.TargetApi
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.app.TaskStackBuilder
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
+import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.lab2.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class NotificationUtil {
+class NotificationUtil : Service() {
+    override fun onBind(p0: Intent?): IBinder? = null
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        Log.d("NotificationUtil", "----------- Service Started -----------")
+        return super.onStartCommand(intent, flags, startId)
+    }
+
+    // service is destroying
+    override fun onDestroy() {
+        Log.d("NotificationUtil", "----------- Service Destroyed -----------")
+        super.onDestroy()
+    }
+
     companion object {
         private const val CHANNEL_ID_TIMER = "menu_timer"
         private const val CHANNEL_NAME_TIMER = "Timer App Timer"
@@ -124,7 +135,7 @@ class NotificationUtil {
             nManager.cancel(TIMER_ID)
         }
 
-        private fun getBasicNotificationBuilder(
+        fun getBasicNotificationBuilder(
             context: Context,
             channelId: String,
             playSound: Boolean
@@ -142,7 +153,7 @@ class NotificationUtil {
 
         // нужно когда кликаем на notification, переходим на TimerStart activity,
         // и если кликнем назад, то должна открыться MainActivity (используется стек PendingIntent)
-        private fun <T> getPendingIntentWithStack(
+        fun <T> getPendingIntentWithStack(
             context: Context,
             javaClass: Class<T>
         ): PendingIntent {
@@ -158,7 +169,7 @@ class NotificationUtil {
         }
 
         @TargetApi(26)
-        private fun NotificationManager.createNotificationChannel(
+        fun NotificationManager.createNotificationChannel(
             channelID: String,
             channelName: String,
             playSound: Boolean
