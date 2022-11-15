@@ -8,7 +8,7 @@ import androidx.core.app.NavUtils
 import androidx.preference.PreferenceFragmentCompat
 
 
-class SettingsActivity : AppCompatActivity() {
+class SettingsActivity : BaseActivityTheme() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

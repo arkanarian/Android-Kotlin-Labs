@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Lab2" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_200</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -11,6 +11,8 @@
         <item name="colorOnSecondary">@color/black</item>
         <item name="colorText">@android:color/secondary_text_dark</item>
         <item name="colorLine">@android:color/white</item>
+        <item name="colorPhaseBackStart">@android:color/black</item>
+        <item name="colorPhaseBackStartText">@android:color/white</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->

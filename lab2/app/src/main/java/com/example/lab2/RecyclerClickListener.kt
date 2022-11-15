@@ -7,8 +7,8 @@ interface RecyclerClickListener {
 }
 interface RecyclerClickListenerPhase {
     fun onItemRemoveClick(position: Int)
-    fun afterTextChangedName(position: Int, s: String)
-    fun afterTextChangedDuration(position: Int, s: String)
-    fun afterTextChangedDurationRest(position: Int, s: String)
-    fun afterTextChangedRepetitions(position: Int, s: String)
+    fun onItemEditClick(position: Int)
+}
+interface RecyclerClickListenerPhaseStart {
+    fun onItemClick(position: Int)
 }

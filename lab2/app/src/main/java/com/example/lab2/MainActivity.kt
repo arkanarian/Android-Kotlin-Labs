@@ -20,13 +20,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.activity_timer_start.*
 import kotlinx.android.synthetic.main.timer_home.*
 import kotlinx.android.synthetic.main.timer_home.view.*
 import kotlinx.coroutines.launch
 import java.util.*
 
 
-class MainActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
+class MainActivity : BaseActivityTheme(), OnSharedPreferenceChangeListener {
 //    var db = Room.databaseBuilder(
 //        applicationContext,
 //        AppDatabase::class.java, "timerapp-database"
@@ -38,9 +39,15 @@ class MainActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     private var fontScale: Float = 1.0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
+//        setStartPreferences()
+//        setTheme(R.style.AppTheme)
+        setupSharedPreferences()
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
 
+//        setSupportActionBar(toolbar)
+//        supportActionBar?.title = getString(R.string.main_activity_title)
 
 
 //        // manually add timer
@@ -66,13 +73,17 @@ class MainActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
 //        }
         setRecyclerView()
         observeTimers()
-        setupSharedPreferences()
         lifecycleScope.launch {
             timerDatabase?.getTimers()?.collect { timerList ->
                 Log.d("timerList ---- ", timerList.toString())
             }
         }
 
+    }
+
+    override fun onResume() {
+        Log.d("OnResume", "--------")
+        super.onResume()
     }
 
 
@@ -82,7 +93,7 @@ class MainActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         val recyclerView = findViewById<RecyclerView>(R.id.timer_list)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
-        adapter = TimerAdapter()
+        adapter = TimerAdapter(this)
 
         adapter.setItemListener(object : RecyclerClickListener {
 
@@ -97,25 +108,23 @@ class MainActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                 val removeTimer = Timer(title, color, duration, id)
                 lifecycleScope.launch {
                     timerDatabase?.deleteTimer(removeTimer)
-                    adapter.notifyDataSetChanged()
                 }
             }
 
             // Tap the note to edit.
             override fun onItemClick(position: Int) {
                 Log.d("TIMER VIEW", "-----------------")
-                val intent = Intent(this@MainActivity, TimerActivity::class.java)
+                val intent = Intent(this@MainActivity, TimerStart::class.java)
                 val timerList = adapter.currentList.toMutableList()
                 intent.putExtra("timer_id", timerList[position].id)
                 intent.putExtra("timer_title", timerList[position].title)
                 intent.putExtra("timer_color", timerList[position].color)
                 intent.putExtra("timer_duration", timerList[position].duration)
-                // editNoteResultLauncher.launch(intent)
+                startActivity(intent)
             }
 
             // Tap the btn Edit to edit.
             override fun onItemEditClick(position: Int) {
-                Log.d("TIMER EDIT", "-----------------")
                 val intent = Intent(this@MainActivity, EditActivity::class.java)
                 val timerList = adapter.currentList.toMutableList()
                 intent.putExtra("timer_id", timerList[position].id)
@@ -173,9 +182,11 @@ class MainActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     private fun setupSharedPreferences() {
         val sharedPreferences: SharedPreferences =
             PreferenceManager.getDefaultSharedPreferences(this)
-//        setStartPreferences(sharedPreferences)
+        setStartPreferences()
         sharedPreferences.registerOnSharedPreferenceChangeListener(this)
     }
+
+
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         Log.d("preferences ----", "CHANGED!!!!")
         if (key == "font_size") {
@@ -212,15 +223,15 @@ class MainActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
 //            if (languageCode == "English")
 //            {
 //                setLocale("en")
-//                finish()
-//                startActivity(getIntent())
 //            }
 //            else if (languageCode == "Русский")
 //            {
 //                setLocale("ru")
-//                finish()
-//                startActivity(getIntent())
 //            }
+//            recreate()
+            finish()
+            startActivity(getIntent())
+            overridePendingTransition(0, 0);
         }
     }
     override fun attachBaseContext(newBase: Context) {
@@ -245,21 +256,36 @@ class MainActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         resources.updateConfiguration(config, resources.displayMetrics)
     }
 
-//    private fun setStartPreferences(sharedPreferences: SharedPreferences)
-//    {
-//        val isDarkTheme = sharedPreferences.getBoolean("app_theme", false)
-//        if (isDarkTheme)
+    private fun setStartPreferences()
+    {
+
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val language = sharedPreferences.getString("language", "English").toString()
+        Log.d("Language 2 --->", language!!)
+//        var languageCode = "en"
+//        if (language == "English")
 //        {
-//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+//            languageCode = "en"
 //        }
-//        else
+//        else if (language == "Русский")
 //        {
-//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+//            languageCode = "ru"
 //        }
-//
-//    }
+//        setLocale(languageCode)
+        val isDarkTheme = sharedPreferences.getBoolean("app_theme", true)
+        if (isDarkTheme)
+        {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        }
+        else
+        {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+
+    }
 
     override fun onDestroy() {
+        Log.d("onDestroy ----", "MAIN ACTIVITY")
         super.onDestroy()
         PreferenceManager.getDefaultSharedPreferences(this)
             .unregisterOnSharedPreferenceChangeListener(this)
