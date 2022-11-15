@@ -60,8 +60,6 @@ class TimerStart : AppCompatActivity() {
     private lateinit var timer: CountDownTimer
     private var timerLengthSeconds: Long = 0L
     private var timerState = TimerState.Stopped
-    private lateinit var servicePrefIntent: Intent
-    private lateinit var serviceNotifyIntent: Intent
 
     private var secondsRemaining: Long = 0L
 
