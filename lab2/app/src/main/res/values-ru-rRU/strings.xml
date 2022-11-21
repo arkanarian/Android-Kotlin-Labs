@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">lab2</string>
+    <string name="title_activity_settings">Настройки</string>
+
+    <string name="action_settings">Настройки</string>
+
+    <!-- Sync Preferences -->
+    <string name="theme_title">Темная тема</string>
+    <string name="fontsize_title">Размер шрифта</string>
+    <string name="language_title">Язык</string>
+
+    <!-- Font Size array-->
+    <string name="small_font">Маленький</string>
+    <string name="medium_font">Средний</string>
+    <string name="large_font">Большой</string>
+
+
+    <string name="english_language">English</string>
+    <string name="russian_language">Русский</string>
+    <string name="delete_btn">Удал.</string>
+    <string name="edit_btn">Ред.</string>
+    <string name="save_btn">Сохранить</string>
+    <string name="phase_name">Фаза:</string>
+    <string name="ending_duration"> сек\nдлительность</string>
+    <string name="ending_duration_rest"> sec\nотдых</string>
+    <string name="ending_repetitions">\nповт</string>
+    <string name="timer_name">Название:</string>
+    <string name="color_edit">Цвет:</string>
+    <string name="new_phase_btn">Новая фаза</string>
+    <string name="sec">сек</string>
+    <string name="default_phase_name">Название фазы</string>
+    <string name="default_timer_title">Название таймера</string>
+    <string name="phase_name_edit">Название:</string>
+    <string name="phase_duration_edit">Длительность фазы (сек):</string>
+    <string name="rest_duration_edit">Длительность отдыха (сек):</string>
+    <string name="repetitions_amount_edit">Количество повторений:</string>
+    <string name="main_activity_title">Таймеры</string>
+    <string name="timer_start_activity_title">Таймер</string>
+    <string name="title_activity_timer_start">Запуск таймера</string>
+    <string name="reps_counting">повт</string>
+    <string name="new_timer_btn">Новый таймер</string>
+
+</resources>
